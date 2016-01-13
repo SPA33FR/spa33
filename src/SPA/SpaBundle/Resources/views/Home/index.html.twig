@@ -1,0 +1,7 @@
+{% for article in articles %}
+    <li>{{article.title}}</li>
+    <li>{{article.subtitle}}</li>
+        {% if not article.images  == NULL%}
+        <li>{{article.images}}</li>
+    {% endif %}
+{% endfor %}

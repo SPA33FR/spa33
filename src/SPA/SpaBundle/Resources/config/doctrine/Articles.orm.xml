@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SPA\SpaBundle\Entity\Articles" table="articles">
+    <id name="idarticles" type="integer" column="idarticles">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="title" type="string" column="title" length="45" nullable="true"/>
+    <field name="subtitle" type="string" column="subtitle" length="45" nullable="true"/>
+    <field name="content" type="string" column="content" length="45" nullable="true"/>
+    <field name="images" type="integer" column="images" nullable="true"/>
+    <field name="publishdate" type="date" column="publishdate" nullable="true"/>
+    <field name="modifdate" type="date" column="modifdate" nullable="true"/>
+    <field name="investigation" type="boolean" column="investigation" nullable="true"/>
+    <many-to-many field="tagstags" target-entity="Tags" inversed-by="articlesarticles">
+      <join-table name="articles_has_tags">
+        <join-columns>
+          <join-column name="articles_idarticles" referenced-column-name="idarticles"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="Tags_idTags" referenced-column-name="idTags"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+    <many-to-many field="imagesimages" target-entity="Images" inversed-by="articlesarticles">
+      <join-table name="articles_has_images">
+        <join-columns>
+          <join-column name="articles_idarticles" referenced-column-name="idarticles"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="Images_idImages" referenced-column-name="idImages"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>

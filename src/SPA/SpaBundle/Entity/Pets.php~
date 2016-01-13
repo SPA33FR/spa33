@@ -1,0 +1,145 @@
+<?php
+
+namespace SPA\SpaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Pets
+ *
+ * @ORM\Table(name="pets", indexes={@ORM\Index(name="fk_Pets_Races1_idx", columns={"Races_idraces"})})
+ * @ORM\Entity
+ */
+class Pets
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reference", type="string", length=45, nullable=true)
+     */
+    private $reference;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medal", type="string", length=45, nullable=true)
+     */
+    private $medal;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="sex", type="boolean", nullable=true)
+     */
+    private $sex;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="arrivaldate", type="date", nullable=true)
+     */
+    private $arrivaldate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="birthdate", type="date", nullable=true)
+     */
+    private $birthdate;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="petofmonth", type="boolean", nullable=true)
+     */
+    private $petofmonth;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="size", type="string", length=10, nullable=true)
+     */
+    private $size;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="veteran", type="boolean", nullable=true)
+     */
+    private $veteran;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=45, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idPets", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $idpets;
+
+    /**
+     * @var \SPA\SpaBundle\Entity\Races
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="SPA\SpaBundle\Entity\Races")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Races_idraces", referencedColumnName="idraces")
+     * })
+     */
+    private $racesraces;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="SPA\SpaBundle\Entity\Videos", inversedBy="petspets")
+     * @ORM\JoinTable(name="pets_has_videos",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Pets_idPets", referencedColumnName="idPets")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Videos_idVideos", referencedColumnName="idVideos")
+     *   }
+     * )
+     */
+    private $videosvideos;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="SPA\SpaBundle\Entity\Images", inversedBy="petspets")
+     * @ORM\JoinTable(name="pets_has_images",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Pets_idPets", referencedColumnName="idPets")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Images_idImages", referencedColumnName="idImages")
+     *   }
+     * )
+     */
+    private $imagesimages;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->videosvideos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->imagesimages = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

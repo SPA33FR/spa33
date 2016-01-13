@@ -1,0 +1,4 @@
+spa_spa:
+    resource: "@SPASpaBundle/Resources/config/routing.yml"
+    prefix:   /
+
