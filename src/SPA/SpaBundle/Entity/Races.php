@@ -62,4 +62,27 @@ class Races
     {
         return $this->idraces;
     }
+    
+    /**
+     * Get All Races FROM Database
+     * 
+     * @param DoctrineManager $em
+     * @return {Collection} 
+     */
+    public function getAllRaces ($em) {
+        return $em->getRepository("\SPA\SpaBundle\Entity\Races")->findAll();
+    }
+    
+    /**
+     * Create One Races IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Races $race
+     * 
+     * @return void
+     */
+    public function saveOne ($em, $race) {
+        $em->persist($race);
+        $em->flush();
+    }
 }

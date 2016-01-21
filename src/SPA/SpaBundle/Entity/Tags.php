@@ -109,4 +109,27 @@ class Tags
     {
         return $this->articlesarticles;
     }
+    
+    /**
+     * Get All Tags FROM Database
+     * 
+     * @param DoctrineManager $em
+     * @return {Collection} 
+     */
+    public function getAllTags ($em) {
+        return $em->getRepository("\SPA\SpaBundle\Entity\Tags")->findAll();
+    }
+    
+    /**
+     * Create One Tags IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Tags $tag
+     * 
+     * @return void
+     */
+    public function saveOne ($em, $tag) {
+        $em->persist($tag);
+        $em->flush();
+    }
 }

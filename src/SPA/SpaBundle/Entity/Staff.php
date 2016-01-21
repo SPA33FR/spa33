@@ -230,4 +230,27 @@ class Staff
     {
         return $this->imagesimages;
     }
+    
+    /**
+     * Get All Staff FROM Database
+     * 
+     * @param DoctrineManager $em
+     * @return {Collection} 
+     */
+    public function getAllRaces ($em) {
+        return $em->getRepository("\SPA\SpaBundle\Entity\Staff")->findAll();
+    }
+    
+    /**
+     * Create One Staff IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Staff $staff
+     * 
+     * @return void
+     */
+    public function saveOne ($em, $staff) {
+        $em->persist($staff);
+        $em->flush();
+    }
 }

@@ -484,4 +484,39 @@ class Pets
     {
         return $this->imagesimages;
     }
+    
+    /**
+     * Get All Pets FROM Database
+     * 
+     * @param DoctrineManager $em
+     * @return {Collection} 
+     */
+    public function getAllPets ($em) {
+        return $em->getRepository("\SPA\SpaBundle\Entity\Pets")->findAll();
+    }
+    
+    /**
+     * Get One Pets FROM Database By Id
+     * 
+     * @param DoctrineManager $em 
+     * @param int $id 
+     * 
+     * @return Pets
+     */
+    public function getOneById($em, $id) {
+        return $em->getRepository("\SPA\SpaBundle\Entity\Pets")->find($id);
+    }
+    
+    /**
+     * Create One Pets IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Pets $pet
+     * 
+     * @return void
+     */
+    public function saveOne ($em, $pet) {
+        $em->persist($pet);
+        $em->flush();
+    }
 }
