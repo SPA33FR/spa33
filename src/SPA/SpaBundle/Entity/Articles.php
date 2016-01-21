@@ -15,30 +15,23 @@ class Articles
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=45, nullable=true)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="subtitle", type="string", length=45, nullable=true)
+     * @ORM\Column(name="subtitle", type="string", length=255, nullable=true)
      */
     private $subtitle;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=45, nullable=true)
+     * @ORM\Column(name="content", type="string", length=255, nullable=true)
      */
     private $content;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="images", type="integer", nullable=true)
-     */
-    private $images;
 
     /**
      * @var \DateTime
@@ -177,29 +170,6 @@ class Articles
     public function getContent()
     {
         return $this->content;
-    }
-
-    /**
-     * Set images
-     *
-     * @param integer $images
-     * @return Articles
-     */
-    public function setImages($images)
-    {
-        $this->images = $images;
-
-        return $this;
-    }
-
-    /**
-     * Get images
-     *
-     * @return integer 
-     */
-    public function getImages()
-    {
-        return $this->images;
     }
 
     /**
@@ -348,15 +318,12 @@ class Articles
     }
     
     /**
-     * Get all articles from Database
+     * Get All Articles FROM Database
      * 
-     * @param EntityManager $em EntityManager from Controller
+     * @param DoctrineManager $em 
+     * @return {Collection}
      */
-    public function getAllArticles ($em) {
-        $articles = $em->getRepository('SPASpaBundle:Articles')->findAll();
-        if(!$articles) {
-            throw $this->createNotFoundException("Erreur lors de la récupération des articles");
-        }
-        return $articles;
+    public function getAllArticles($em) {
+        return $em->getRepository("\SPA\SpaBundle\Entity\Articles")->findAll();
     }
 }

@@ -4,7 +4,7 @@
     <id name="idvideos" type="integer" column="idVideos">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="url" type="string" column="url" length="45" nullable="true"/>
+    <field name="url" type="string" column="url" length="255" nullable="true"/>
     <many-to-many field="petspets" target-entity="Pets" mapped-by="videosvideos"/>
   </entity>
 </doctrine-mapping>

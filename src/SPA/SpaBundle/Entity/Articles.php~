@@ -15,30 +15,23 @@ class Articles
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=45, nullable=true)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="subtitle", type="string", length=45, nullable=true)
+     * @ORM\Column(name="subtitle", type="string", length=255, nullable=true)
      */
     private $subtitle;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=45, nullable=true)
+     * @ORM\Column(name="content", type="string", length=255, nullable=true)
      */
     private $content;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="images", type="integer", nullable=true)
-     */
-    private $images;
 
     /**
      * @var \DateTime

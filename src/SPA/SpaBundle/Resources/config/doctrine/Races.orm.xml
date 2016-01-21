@@ -4,6 +4,6 @@
     <id name="idraces" type="integer" column="idraces">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="name" type="string" column="name" length="45" nullable="true"/>
+    <field name="name" type="string" column="name" length="255" nullable="true"/>
   </entity>
 </doctrine-mapping>

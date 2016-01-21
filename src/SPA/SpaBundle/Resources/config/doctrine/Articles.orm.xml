@@ -4,10 +4,9 @@
     <id name="idarticles" type="integer" column="idarticles">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="title" type="string" column="title" length="45" nullable="true"/>
-    <field name="subtitle" type="string" column="subtitle" length="45" nullable="true"/>
-    <field name="content" type="string" column="content" length="45" nullable="true"/>
-    <field name="images" type="integer" column="images" nullable="true"/>
+    <field name="title" type="string" column="title" length="255" nullable="true"/>
+    <field name="subtitle" type="string" column="subtitle" length="255" nullable="true"/>
+    <field name="content" type="string" column="content" length="255" nullable="true"/>
     <field name="publishdate" type="date" column="publishdate" nullable="true"/>
     <field name="modifdate" type="date" column="modifdate" nullable="true"/>
     <field name="investigation" type="boolean" column="investigation" nullable="true"/>

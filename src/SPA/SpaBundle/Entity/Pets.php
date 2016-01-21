@@ -78,7 +78,7 @@ class Pets
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=45, nullable=true)
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     private $type;
 

@@ -15,7 +15,7 @@
     <field name="petofmonth" type="boolean" column="petofmonth" nullable="true"/>
     <field name="size" type="string" column="size" length="10" nullable="true"/>
     <field name="veteran" type="boolean" column="veteran" nullable="true"/>
-    <field name="type" type="string" column="type" length="45" nullable="true"/>
+    <field name="type" type="string" column="type" length="255" nullable="true"/>
     <one-to-one field="racesraces" target-entity="Races">
       <join-columns>
         <join-column name="Races_idraces" referenced-column-name="idraces"/>
