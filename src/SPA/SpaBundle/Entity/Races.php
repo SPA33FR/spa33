@@ -85,4 +85,18 @@ class Races
         $em->persist($race);
         $em->flush();
     }
+    
+    
+    /**
+     * Delete One Races IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Races $race
+     * 
+     * @return void
+     */
+    public function deleteOne ($em, $race) {
+        $em->remove($race);
+        $em->flush();
+    }
 }

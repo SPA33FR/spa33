@@ -330,4 +330,17 @@ class Articles {
         $em->persist($article);
         $em->flush();
     }
+    
+    /**
+     * Delete One Article IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Articles $article
+     * 
+     * @return void
+     */
+    public function deleteOne ($em, $article) {
+        $em->remove($article);
+        $em->flush();
+    }
 }

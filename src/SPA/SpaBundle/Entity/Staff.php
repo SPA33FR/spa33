@@ -253,4 +253,18 @@ class Staff
         $em->persist($staff);
         $em->flush();
     }
+    
+    
+    /**
+     * Delete One Staff IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Staff $staff
+     * 
+     * @return void
+     */
+    public function deleteOne ($em, $staff) {
+        $em->remove($staff);
+        $em->flush();
+    }
 }

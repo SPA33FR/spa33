@@ -519,4 +519,18 @@ class Pets
         $em->persist($pet);
         $em->flush();
     }
+    
+    
+    /**
+     * Delete One Pets IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Pets $pet
+     * 
+     * @return void
+     */
+    public function deleteOne ($em, $pet) {
+        $em->remove($pet);
+        $em->flush();
+    }
 }

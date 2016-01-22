@@ -132,4 +132,18 @@ class Tags
         $em->persist($tag);
         $em->flush();
     }
+    
+    
+    /**
+     * Delete One Tags IN Database
+     * 
+     * @param DoctrineManager $em 
+     * @param Tags $tag
+     * 
+     * @return void
+     */
+    public function deleteOne ($em, $tag) {
+        $em->remove($tag);
+        $em->flush();
+    }
 }
