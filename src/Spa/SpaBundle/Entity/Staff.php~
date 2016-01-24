@@ -1,0 +1,72 @@
+<?php
+
+namespace Spa\SpaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Staff
+ *
+ * @ORM\Table(name="staff", indexes={@ORM\Index(name="fk_Staff_Images1_idx", columns={"Images_idImages"})})
+ * @ORM\Entity
+ */
+class Staff
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstname", type="string", length=45, nullable=true)
+     */
+    private $firstname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastname", type="string", length=45, nullable=true)
+     */
+    private $lastname;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="sex", type="boolean", nullable=true)
+     */
+    private $sex;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="string", length=45, nullable=true)
+     */
+    private $role;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="type", type="boolean", nullable=true)
+     */
+    private $type;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idStaff", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $idstaff;
+
+    /**
+     * @var \Spa\SpaBundle\Entity\Images
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Spa\SpaBundle\Entity\Images")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Images_idImages", referencedColumnName="idImages")
+     * })
+     */
+    private $imagesimages;
+
+
+}

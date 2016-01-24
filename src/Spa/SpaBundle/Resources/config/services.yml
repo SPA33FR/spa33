@@ -1,0 +1,4 @@
+services:
+#    spa_spa.example:
+#        class: Spa\SpaBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

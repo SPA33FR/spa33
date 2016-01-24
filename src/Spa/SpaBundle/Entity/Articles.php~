@@ -1,0 +1,105 @@
+<?php
+
+namespace Spa\SpaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Articles
+ *
+ * @ORM\Table(name="articles")
+ * @ORM\Entity
+ */
+class Articles
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subtitle", type="string", length=255, nullable=true)
+     */
+    private $subtitle;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=255, nullable=true)
+     */
+    private $content;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="publishdate", type="date", nullable=true)
+     */
+    private $publishdate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modifdate", type="date", nullable=true)
+     */
+    private $modifdate;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="investigation", type="boolean", nullable=true)
+     */
+    private $investigation;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idarticles", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idarticles;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Spa\SpaBundle\Entity\Tags", inversedBy="articlesarticles")
+     * @ORM\JoinTable(name="articles_has_tags",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="articles_idarticles", referencedColumnName="idarticles")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Tags_idTags", referencedColumnName="idTags")
+     *   }
+     * )
+     */
+    private $tagstags;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Spa\SpaBundle\Entity\Images", inversedBy="articlesarticles")
+     * @ORM\JoinTable(name="articles_has_images",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="articles_idarticles", referencedColumnName="idarticles")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Images_idImages", referencedColumnName="idImages")
+     *   }
+     * )
+     */
+    private $imagesimages;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tagstags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->imagesimages = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

@@ -1,0 +1,3 @@
+spa_spa_homepage:
+    path:     /
+    defaults: { _controller: SpaSpaBundle:Default:index }

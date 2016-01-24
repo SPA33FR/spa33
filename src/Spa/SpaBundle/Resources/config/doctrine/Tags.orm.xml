@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Spa\SpaBundle\Entity\Tags" table="tags">
+    <id name="idtags" type="integer" column="idTags">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="name" type="string" column="name" length="255" nullable="true"/>
+    <many-to-many field="articlesarticles" target-entity="Articles" mapped-by="tagstags"/>
+  </entity>
+</doctrine-mapping>

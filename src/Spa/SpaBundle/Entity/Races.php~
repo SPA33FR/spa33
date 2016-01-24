@@ -1,0 +1,32 @@
+<?php
+
+namespace Spa\SpaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Races
+ *
+ * @ORM\Table(name="races")
+ * @ORM\Entity
+ */
+class Races
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idraces", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idraces;
+
+
+}
