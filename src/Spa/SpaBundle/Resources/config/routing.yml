@@ -3,5 +3,9 @@ spa_spa_homepage:
     defaults: { _controller: SpaSpaBundle:Default:index }
     
 spa_spa_admin:
-    path: /admin
-    defaults: { _controller:SpaSpaBundle:Admin:index }
+    path: /admin/configuration
+    defaults: { _controller: SpaSpaBundle:Admin:index }
+
+spa_spa_admin_articles:
+    path: /admin/configuration/articles
+    defaults: { _controller: SpaSpaBundle:Admin:configurateArticles }

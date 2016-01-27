@@ -18,6 +18,17 @@ and open the template in the editor.
         <nav>
             {% include "::navbarAdmin.html.twig" %}
         </nav>
-        <div>TODO write content</div>
+        <div>
+            {% for article in articles %}
+                <li>{{article.title}}</li>
+                <li>{{article.subtitle}}</li>
+                <li>{{article.content}}</li>
+                <li>{{article.publishdate|date('d/m/Y')}}</li>
+                <li>{{article.modifdate|date('d/m/Y')}}</li>
+                    {% for image in article.imagesimages %}
+                    <img src="{{image.url}}">
+                {% endfor %}
+            {% endfor %} 
+        </div>
     </body>
 </html>
