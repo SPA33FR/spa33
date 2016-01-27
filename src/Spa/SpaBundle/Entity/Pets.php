@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="pets", indexes={@ORM\Index(name="fk_Pets_Races1_idx", columns={"Races_idraces"})})
  * @ORM\Entity
  */
-class Pets {
-
+class Pets
+{
     /**
      * @var string
      *
@@ -136,10 +136,12 @@ class Pets {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->videosvideos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->imagesimages = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
 
     /**
      * Set reference
@@ -147,9 +149,10 @@ class Pets {
      * @param string $reference
      * @return Pets
      */
-    public function setReference($reference) {
+    public function setReference($reference)
+    {
         $this->reference = $reference;
-
+    
         return $this;
     }
 
@@ -158,7 +161,8 @@ class Pets {
      *
      * @return string 
      */
-    public function getReference() {
+    public function getReference()
+    {
         return $this->reference;
     }
 
@@ -168,9 +172,10 @@ class Pets {
      * @param string $medal
      * @return Pets
      */
-    public function setMedal($medal) {
+    public function setMedal($medal)
+    {
         $this->medal = $medal;
-
+    
         return $this;
     }
 
@@ -179,7 +184,8 @@ class Pets {
      *
      * @return string 
      */
-    public function getMedal() {
+    public function getMedal()
+    {
         return $this->medal;
     }
 
@@ -189,9 +195,10 @@ class Pets {
      * @param boolean $sex
      * @return Pets
      */
-    public function setSex($sex) {
+    public function setSex($sex)
+    {
         $this->sex = $sex;
-
+    
         return $this;
     }
 
@@ -200,7 +207,8 @@ class Pets {
      *
      * @return boolean 
      */
-    public function getSex() {
+    public function getSex()
+    {
         return $this->sex;
     }
 
@@ -210,9 +218,10 @@ class Pets {
      * @param string $description
      * @return Pets
      */
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
-
+    
         return $this;
     }
 
@@ -221,7 +230,8 @@ class Pets {
      *
      * @return string 
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
@@ -231,9 +241,10 @@ class Pets {
      * @param \DateTime $arrivaldate
      * @return Pets
      */
-    public function setArrivaldate($arrivaldate) {
+    public function setArrivaldate($arrivaldate)
+    {
         $this->arrivaldate = $arrivaldate;
-
+    
         return $this;
     }
 
@@ -242,7 +253,8 @@ class Pets {
      *
      * @return \DateTime 
      */
-    public function getArrivaldate() {
+    public function getArrivaldate()
+    {
         return $this->arrivaldate;
     }
 
@@ -252,9 +264,10 @@ class Pets {
      * @param \DateTime $birthdate
      * @return Pets
      */
-    public function setBirthdate($birthdate) {
+    public function setBirthdate($birthdate)
+    {
         $this->birthdate = $birthdate;
-
+    
         return $this;
     }
 
@@ -263,7 +276,8 @@ class Pets {
      *
      * @return \DateTime 
      */
-    public function getBirthdate() {
+    public function getBirthdate()
+    {
         return $this->birthdate;
     }
 
@@ -273,9 +287,10 @@ class Pets {
      * @param boolean $petofmonth
      * @return Pets
      */
-    public function setPetofmonth($petofmonth) {
+    public function setPetofmonth($petofmonth)
+    {
         $this->petofmonth = $petofmonth;
-
+    
         return $this;
     }
 
@@ -284,7 +299,8 @@ class Pets {
      *
      * @return boolean 
      */
-    public function getPetofmonth() {
+    public function getPetofmonth()
+    {
         return $this->petofmonth;
     }
 
@@ -294,9 +310,10 @@ class Pets {
      * @param string $size
      * @return Pets
      */
-    public function setSize($size) {
+    public function setSize($size)
+    {
         $this->size = $size;
-
+    
         return $this;
     }
 
@@ -305,7 +322,8 @@ class Pets {
      *
      * @return string 
      */
-    public function getSize() {
+    public function getSize()
+    {
         return $this->size;
     }
 
@@ -315,9 +333,10 @@ class Pets {
      * @param boolean $veteran
      * @return Pets
      */
-    public function setVeteran($veteran) {
+    public function setVeteran($veteran)
+    {
         $this->veteran = $veteran;
-
+    
         return $this;
     }
 
@@ -326,7 +345,8 @@ class Pets {
      *
      * @return boolean 
      */
-    public function getVeteran() {
+    public function getVeteran()
+    {
         return $this->veteran;
     }
 
@@ -336,9 +356,10 @@ class Pets {
      * @param string $type
      * @return Pets
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
-
+    
         return $this;
     }
 
@@ -347,7 +368,8 @@ class Pets {
      *
      * @return string 
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -357,9 +379,10 @@ class Pets {
      * @param integer $idpets
      * @return Pets
      */
-    public function setIdpets($idpets) {
+    public function setIdpets($idpets)
+    {
         $this->idpets = $idpets;
-
+    
         return $this;
     }
 
@@ -368,7 +391,8 @@ class Pets {
      *
      * @return integer 
      */
-    public function getIdpets() {
+    public function getIdpets()
+    {
         return $this->idpets;
     }
 
@@ -378,9 +402,10 @@ class Pets {
      * @param \Spa\SpaBundle\Entity\Races $racesraces
      * @return Pets
      */
-    public function setRacesraces(\Spa\SpaBundle\Entity\Races $racesraces) {
+    public function setRacesraces(\Spa\SpaBundle\Entity\Races $racesraces)
+    {
         $this->racesraces = $racesraces;
-
+    
         return $this;
     }
 
@@ -389,7 +414,8 @@ class Pets {
      *
      * @return \Spa\SpaBundle\Entity\Races 
      */
-    public function getRacesraces() {
+    public function getRacesraces()
+    {
         return $this->racesraces;
     }
 
@@ -399,9 +425,10 @@ class Pets {
      * @param \Spa\SpaBundle\Entity\Videos $videosvideos
      * @return Pets
      */
-    public function addVideosvideo(\Spa\SpaBundle\Entity\Videos $videosvideos) {
+    public function addVideosvideo(\Spa\SpaBundle\Entity\Videos $videosvideos)
+    {
         $this->videosvideos[] = $videosvideos;
-
+    
         return $this;
     }
 
@@ -410,7 +437,8 @@ class Pets {
      *
      * @param \Spa\SpaBundle\Entity\Videos $videosvideos
      */
-    public function removeVideosvideo(\Spa\SpaBundle\Entity\Videos $videosvideos) {
+    public function removeVideosvideo(\Spa\SpaBundle\Entity\Videos $videosvideos)
+    {
         $this->videosvideos->removeElement($videosvideos);
     }
 
@@ -419,7 +447,8 @@ class Pets {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getVideosvideos() {
+    public function getVideosvideos()
+    {
         return $this->videosvideos;
     }
 
@@ -429,9 +458,10 @@ class Pets {
      * @param \Spa\SpaBundle\Entity\Images $imagesimages
      * @return Pets
      */
-    public function addImagesimage(\Spa\SpaBundle\Entity\Images $imagesimages) {
+    public function addImagesimage(\Spa\SpaBundle\Entity\Images $imagesimages)
+    {
         $this->imagesimages[] = $imagesimages;
-
+    
         return $this;
     }
 
@@ -440,7 +470,8 @@ class Pets {
      *
      * @param \Spa\SpaBundle\Entity\Images $imagesimages
      */
-    public function removeImagesimage(\Spa\SpaBundle\Entity\Images $imagesimages) {
+    public function removeImagesimage(\Spa\SpaBundle\Entity\Images $imagesimages)
+    {
         $this->imagesimages->removeElement($imagesimages);
     }
 
@@ -449,10 +480,11 @@ class Pets {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getImagesimages() {
+    public function getImagesimages()
+    {
         return $this->imagesimages;
     }
-
+    
     /**
      * Get All Pets FROM Database
      * 
@@ -462,7 +494,6 @@ class Pets {
     public function getAllPets($em) {
         return $em->getRepository("\Spa\SpaBundle\Entity\Pets")->findAll();
     }
-
     /**
      * Get One Pets FROM Database By Id
      * 
@@ -474,7 +505,6 @@ class Pets {
     public function getOneById($em, $id) {
         return $em->getRepository("\Spa\SpaBundle\Entity\Pets")->find($id);
     }
-
     /**
      * Create One Pets IN Database
      * 
@@ -487,7 +517,6 @@ class Pets {
         $em->persist($pet);
         $em->flush();
     }
-
     /**
      * Delete One Pets IN Database
      * 
@@ -500,5 +529,4 @@ class Pets {
         $em->remove($pet);
         $em->flush();
     }
-
 }

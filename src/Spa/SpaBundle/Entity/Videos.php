@@ -53,7 +53,7 @@ class Videos
     public function setUrl($url)
     {
         $this->url = $url;
-
+    
         return $this;
     }
 
@@ -86,7 +86,7 @@ class Videos
     public function addPetspet(\Spa\SpaBundle\Entity\Pets $petspets)
     {
         $this->petspets[] = $petspets;
-
+    
         return $this;
     }
 

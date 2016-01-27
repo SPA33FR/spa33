@@ -10,7 +10,21 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="staff", indexes={@ORM\Index(name="fk_Staff_Images1_idx", columns={"Images_idImages"})})
  * @ORM\Entity
  */
-class Staff {
+class Staff
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login", type="string", length=45, nullable=false)
+     */
+    private $login;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=45, nullable=false)
+     */
+    private $password;
 
     /**
      * @var string
@@ -68,15 +82,64 @@ class Staff {
      */
     private $imagesimages;
 
+
+
+    /**
+     * Set login
+     *
+     * @param string $login
+     * @return Staff
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+    
+        return $this;
+    }
+
+    /**
+     * Get login
+     *
+     * @return string 
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return Staff
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
     /**
      * Set firstname
      *
      * @param string $firstname
      * @return Staff
      */
-    public function setFirstname($firstname) {
+    public function setFirstname($firstname)
+    {
         $this->firstname = $firstname;
-
+    
         return $this;
     }
 
@@ -85,7 +148,8 @@ class Staff {
      *
      * @return string 
      */
-    public function getFirstname() {
+    public function getFirstname()
+    {
         return $this->firstname;
     }
 
@@ -95,9 +159,10 @@ class Staff {
      * @param string $lastname
      * @return Staff
      */
-    public function setLastname($lastname) {
+    public function setLastname($lastname)
+    {
         $this->lastname = $lastname;
-
+    
         return $this;
     }
 
@@ -106,7 +171,8 @@ class Staff {
      *
      * @return string 
      */
-    public function getLastname() {
+    public function getLastname()
+    {
         return $this->lastname;
     }
 
@@ -116,9 +182,10 @@ class Staff {
      * @param boolean $sex
      * @return Staff
      */
-    public function setSex($sex) {
+    public function setSex($sex)
+    {
         $this->sex = $sex;
-
+    
         return $this;
     }
 
@@ -127,7 +194,8 @@ class Staff {
      *
      * @return boolean 
      */
-    public function getSex() {
+    public function getSex()
+    {
         return $this->sex;
     }
 
@@ -137,9 +205,10 @@ class Staff {
      * @param string $role
      * @return Staff
      */
-    public function setRole($role) {
+    public function setRole($role)
+    {
         $this->role = $role;
-
+    
         return $this;
     }
 
@@ -148,7 +217,8 @@ class Staff {
      *
      * @return string 
      */
-    public function getRole() {
+    public function getRole()
+    {
         return $this->role;
     }
 
@@ -158,9 +228,10 @@ class Staff {
      * @param boolean $type
      * @return Staff
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
-
+    
         return $this;
     }
 
@@ -169,7 +240,8 @@ class Staff {
      *
      * @return boolean 
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -179,9 +251,10 @@ class Staff {
      * @param integer $idstaff
      * @return Staff
      */
-    public function setIdstaff($idstaff) {
+    public function setIdstaff($idstaff)
+    {
         $this->idstaff = $idstaff;
-
+    
         return $this;
     }
 
@@ -190,7 +263,8 @@ class Staff {
      *
      * @return integer 
      */
-    public function getIdstaff() {
+    public function getIdstaff()
+    {
         return $this->idstaff;
     }
 
@@ -200,9 +274,10 @@ class Staff {
      * @param \Spa\SpaBundle\Entity\Images $imagesimages
      * @return Staff
      */
-    public function setImagesimages(\Spa\SpaBundle\Entity\Images $imagesimages) {
+    public function setImagesimages(\Spa\SpaBundle\Entity\Images $imagesimages)
+    {
         $this->imagesimages = $imagesimages;
-
+    
         return $this;
     }
 
@@ -211,20 +286,20 @@ class Staff {
      *
      * @return \Spa\SpaBundle\Entity\Images 
      */
-    public function getImagesimages() {
+    public function getImagesimages()
+    {
         return $this->imagesimages;
     }
-
+    
     /**
      * Get All Staff FROM Database
      * 
      * @param DoctrineManager $em
      * @return {Collection} 
      */
-    public function getAllRaces($em) {
+    public function getAllStaff($em) {
         return $em->getRepository("\Spa\SpaBundle\Entity\Staff")->findAll();
     }
-
     /**
      * Create One Staff IN Database
      * 
@@ -237,7 +312,6 @@ class Staff {
         $em->persist($staff);
         $em->flush();
     }
-
     /**
      * Delete One Staff IN Database
      * 
@@ -250,5 +324,4 @@ class Staff {
         $em->remove($staff);
         $em->flush();
     }
-
 }

@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tags")
  * @ORM\Entity
  */
-class Tags {
-
+class Tags
+{
     /**
      * @var string
      *
@@ -38,9 +38,11 @@ class Tags {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->articlesarticles = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
 
     /**
      * Set name
@@ -48,9 +50,10 @@ class Tags {
      * @param string $name
      * @return Tags
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
-
+    
         return $this;
     }
 
@@ -59,7 +62,8 @@ class Tags {
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -68,7 +72,8 @@ class Tags {
      *
      * @return integer 
      */
-    public function getIdtags() {
+    public function getIdtags()
+    {
         return $this->idtags;
     }
 
@@ -78,9 +83,10 @@ class Tags {
      * @param \Spa\SpaBundle\Entity\Articles $articlesarticles
      * @return Tags
      */
-    public function addArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles) {
+    public function addArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles)
+    {
         $this->articlesarticles[] = $articlesarticles;
-
+    
         return $this;
     }
 
@@ -89,7 +95,8 @@ class Tags {
      *
      * @param \Spa\SpaBundle\Entity\Articles $articlesarticles
      */
-    public function removeArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles) {
+    public function removeArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles)
+    {
         $this->articlesarticles->removeElement($articlesarticles);
     }
 
@@ -98,10 +105,11 @@ class Tags {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getArticlesarticles() {
+    public function getArticlesarticles()
+    {
         return $this->articlesarticles;
     }
-
+    
     /**
      * Get All Tags FROM Database
      * 
@@ -111,7 +119,6 @@ class Tags {
     public function getAllTags($em) {
         return $em->getRepository("\Spa\SpaBundle\Entity\Tags")->findAll();
     }
-
     /**
      * Create One Tags IN Database
      * 
@@ -124,7 +131,6 @@ class Tags {
         $em->persist($tag);
         $em->flush();
     }
-
     /**
      * Delete One Tags IN Database
      * 
@@ -137,5 +143,4 @@ class Tags {
         $em->remove($tag);
         $em->flush();
     }
-
 }

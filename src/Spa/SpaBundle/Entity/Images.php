@@ -61,7 +61,7 @@ class Images
     public function setUrl($url)
     {
         $this->url = $url;
-
+    
         return $this;
     }
 
@@ -94,7 +94,7 @@ class Images
     public function addPetspet(\Spa\SpaBundle\Entity\Pets $petspets)
     {
         $this->petspets[] = $petspets;
-
+    
         return $this;
     }
 
@@ -127,7 +127,7 @@ class Images
     public function addArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles)
     {
         $this->articlesarticles[] = $articlesarticles;
-
+    
         return $this;
     }
 

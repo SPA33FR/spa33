@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="races")
  * @ORM\Entity
  */
-class Races {
-
+class Races
+{
     /**
      * @var string
      *
@@ -28,15 +28,18 @@ class Races {
      */
     private $idraces;
 
+
+
     /**
      * Set name
      *
      * @param string $name
      * @return Races
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
-
+    
         return $this;
     }
 
@@ -45,7 +48,8 @@ class Races {
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -54,10 +58,11 @@ class Races {
      *
      * @return integer 
      */
-    public function getIdraces() {
+    public function getIdraces()
+    {
         return $this->idraces;
     }
-
+    
     /**
      * Get All Races FROM Database
      * 
@@ -67,7 +72,6 @@ class Races {
     public function getAllRaces($em) {
         return $em->getRepository("\Spa\SpaBundle\Entity\Races")->findAll();
     }
-
     /**
      * Create One Races IN Database
      * 
@@ -80,7 +84,6 @@ class Races {
         $em->persist($race);
         $em->flush();
     }
-
     /**
      * Delete One Races IN Database
      * 
@@ -93,5 +96,4 @@ class Races {
         $em->remove($race);
         $em->flush();
     }
-
 }
