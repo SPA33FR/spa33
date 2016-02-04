@@ -1,6 +1,19 @@
-<ul class="nav nav-pills nav-stacked">
-  <li class="active"><a href="/">Home</a></li>
-  <li><a href="{{ path('spa_spa_admin_articles') }}">Articles</a></li>
-  <li><a href="#">Menu 2</a></li>
-  <li><a href="#">Menu 3</a></li>
+<ul class="nav nav-stacked menu" id="sidebar">
+    <li class="active"><a href="{{path('spa_spa_admin')}}">Home</a></li>
+    <li>
+        <a href="#articles" class="list-group-item">Articles
+            <b class="caret pull-right"></b> <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="collapse" id="articles">
+            <a href="{{ path('spa_spa_admin_articles') }}" class="list-group-item">Créer un article<i class="fa fa-caret-down"></i></a>
+            <a href="#" class="list-group-item">Modifier un article<i class="fa fa-caret-down"></i></a>
+            <a href="#" class="list-group-item">Supprimer un article<i class="fa fa-caret-down"></i></a>
+        </ul>
+    </li>
+    <li>
+        <a href="#menu2" class="list-group-item">Menu 2</a>
+    </li>
+    <li>
+        <a href="#menu3" class="list-group-item">Menu 3</a>
+    </li>
 </ul>

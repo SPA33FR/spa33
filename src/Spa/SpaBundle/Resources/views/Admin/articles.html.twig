@@ -15,20 +15,29 @@ and open the template in the editor.
     </head>
 
     <body>      
-        <nav>
-            {% include "::navbarAdmin.html.twig" %}
-        </nav>
-        <div>
-            {% for article in articles %}
-                <li>{{article.title}}</li>
-                <li>{{article.subtitle}}</li>
-                <li>{{article.content}}</li>
-                <li>{{article.publishdate|date('d/m/Y')}}</li>
-                <li>{{article.modifdate|date('d/m/Y')}}</li>
-                    {% for image in article.imagesimages %}
-                    <img src="{{image.url}}">
-                {% endfor %}
-            {% endfor %} 
+        <div class="row">
+            <div class="col-md-3" id="leftCol">
+                {% include "::navbarAdmin.html.twig" %}
+            </div>
+            <div class="col-md-9">
+                {% for article in articles %}
+                    <li>{{article.title}}</li>
+                    <li>{{article.subtitle}}</li>
+                    <li>{{article.content}}</li>
+                    <li>{{article.publishdate|date('d/m/Y')}}</li>
+                    <li>{{article.modifdate|date('d/m/Y')}}</li>
+                        {% for image in article.imagesimages %}
+                        <img src="{{image.url}}">
+                    {% endfor %}
+                {% endfor %} 
+            </div>
         </div>
+        {% javascripts '@SpaSpaBundle/Resources/views/lib/jquery-1.12.0.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@SpaSpaBundle/Resources/views/js/changeView.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     </body>
 </html>
