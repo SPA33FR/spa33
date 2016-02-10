@@ -3,6 +3,7 @@
 namespace Spa\SpaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Articles
@@ -10,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="articles")
  * @ORM\Entity
  */
-class Articles
-{
+class Articles {
+
     /**
      * @var string
      *
@@ -92,16 +93,25 @@ class Articles
      * )
      */
     private $imagesimages;
+    
+    
+    
+    
+    /**
+     * @var array
+     */
+    public $file;
+    
+    
 
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->tagstags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->imagesimages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->file = array();
     }
-
 
     /**
      * Set title
@@ -109,10 +119,9 @@ class Articles
      * @param string $title
      * @return Articles
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
-    
+
         return $this;
     }
 
@@ -121,8 +130,7 @@ class Articles
      *
      * @return string 
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -132,10 +140,9 @@ class Articles
      * @param string $subtitle
      * @return Articles
      */
-    public function setSubtitle($subtitle)
-    {
+    public function setSubtitle($subtitle) {
         $this->subtitle = $subtitle;
-    
+
         return $this;
     }
 
@@ -144,8 +151,7 @@ class Articles
      *
      * @return string 
      */
-    public function getSubtitle()
-    {
+    public function getSubtitle() {
         return $this->subtitle;
     }
 
@@ -155,10 +161,9 @@ class Articles
      * @param string $content
      * @return Articles
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         $this->content = $content;
-    
+
         return $this;
     }
 
@@ -167,8 +172,7 @@ class Articles
      *
      * @return string 
      */
-    public function getContent()
-    {
+    public function getContent() {
         return $this->content;
     }
 
@@ -178,10 +182,9 @@ class Articles
      * @param \DateTime $publishdate
      * @return Articles
      */
-    public function setPublishdate($publishdate)
-    {
+    public function setPublishdate($publishdate) {
         $this->publishdate = $publishdate;
-    
+
         return $this;
     }
 
@@ -190,8 +193,7 @@ class Articles
      *
      * @return \DateTime 
      */
-    public function getPublishdate()
-    {
+    public function getPublishdate() {
         return $this->publishdate;
     }
 
@@ -201,10 +203,9 @@ class Articles
      * @param \DateTime $modifdate
      * @return Articles
      */
-    public function setModifdate($modifdate)
-    {
+    public function setModifdate($modifdate) {
         $this->modifdate = $modifdate;
-    
+
         return $this;
     }
 
@@ -213,8 +214,7 @@ class Articles
      *
      * @return \DateTime 
      */
-    public function getModifdate()
-    {
+    public function getModifdate() {
         return $this->modifdate;
     }
 
@@ -224,10 +224,9 @@ class Articles
      * @param boolean $investigation
      * @return Articles
      */
-    public function setInvestigation($investigation)
-    {
+    public function setInvestigation($investigation) {
         $this->investigation = $investigation;
-    
+
         return $this;
     }
 
@@ -236,8 +235,7 @@ class Articles
      *
      * @return boolean 
      */
-    public function getInvestigation()
-    {
+    public function getInvestigation() {
         return $this->investigation;
     }
 
@@ -246,8 +244,7 @@ class Articles
      *
      * @return integer 
      */
-    public function getIdarticles()
-    {
+    public function getIdarticles() {
         return $this->idarticles;
     }
 
@@ -257,10 +254,9 @@ class Articles
      * @param \Spa\SpaBundle\Entity\Tags $tagstags
      * @return Articles
      */
-    public function addTagstag(\Spa\SpaBundle\Entity\Tags $tagstags)
-    {
+    public function addTagstag(\Spa\SpaBundle\Entity\Tags $tagstags) {
         $this->tagstags[] = $tagstags;
-    
+
         return $this;
     }
 
@@ -269,8 +265,7 @@ class Articles
      *
      * @param \Spa\SpaBundle\Entity\Tags $tagstags
      */
-    public function removeTagstag(\Spa\SpaBundle\Entity\Tags $tagstags)
-    {
+    public function removeTagstag(\Spa\SpaBundle\Entity\Tags $tagstags) {
         $this->tagstags->removeElement($tagstags);
     }
 
@@ -279,8 +274,7 @@ class Articles
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getTagstags()
-    {
+    public function getTagstags() {
         return $this->tagstags;
     }
 
@@ -290,10 +284,10 @@ class Articles
      * @param \Spa\SpaBundle\Entity\Images $imagesimages
      * @return Articles
      */
-    public function addImagesimage(\Spa\SpaBundle\Entity\Images $imagesimages)
-    {
-        $this->imagesimages[] = $imagesimages;
-    
+    public function addImagesimage(\Spa\SpaBundle\Entity\Images $imagesimages = null) {
+        if ($imagesimages != null)
+            $this->imagesimages[] = $imagesimages;
+
         return $this;
     }
 
@@ -302,8 +296,7 @@ class Articles
      *
      * @param \Spa\SpaBundle\Entity\Images $imagesimages
      */
-    public function removeImagesimage(\Spa\SpaBundle\Entity\Images $imagesimages)
-    {
+    public function removeImagesimage(\Spa\SpaBundle\Entity\Images $imagesimages) {
         $this->imagesimages->removeElement($imagesimages);
     }
 
@@ -312,11 +305,10 @@ class Articles
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getImagesimages()
-    {
+    public function getImagesimages() {
         return $this->imagesimages;
     }
-    
+
     /**
      * Get all articles from Database
      * Get All Articles FROM Database
@@ -332,6 +324,7 @@ class Articles
         }
         return $articles;
     }
+
     /**
      * Get One Article FROM Database By Id
      * 
@@ -343,6 +336,7 @@ class Articles
     public function getOneById($em, $id) {
         return $em->getRepository("\Spa\SpaBundle\Entity\Articles")->find($id);
     }
+
     /**
      * Create One Article IN Database
      * 
@@ -355,6 +349,7 @@ class Articles
         $em->persist($article);
         $em->flush();
     }
+
     /**
      * Delete One Article IN Database
      * 
@@ -367,4 +362,43 @@ class Articles
         $em->remove($article);
         $em->flush();
     }
+
+    /*
+     * Functions Upload Files
+     */
+
+
+    public function getWebPath() {
+        return null === $this->pictureName ? null : $this->getUploadDir() . '/' . $this->pictureName;
+    }
+
+    protected function getUploadRootDir() {
+        // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+    }
+
+    protected function getUploadDir() {
+        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+        return 'uploads/pictures';
+    }
+
+    public function uploadProfilePicture($em) {
+        // Nous utilisons le nom de fichier original, donc il est dans la pratique 
+        // nécessaire de le nettoyer pour éviter les problèmes de sécurité
+        // move copie le fichier présent chez le client dans le répertoire indiqué.
+  
+        for($i = 0; $i < count($this->file); $i++) {
+            $this->file[$i]->move($this->getUploadRootDir(), $this->file[$i]->getClientOriginalName());
+
+            // On sauvegarde le nom de fichier
+            $images = new Images();
+            $images->setUrl($this->file[$i]->getClientOriginalName());
+            $this->addImagesimage($images);
+            $em->persist($images);
+            $em->flush();
+        }
+        // La propriété file ne servira plus
+        $this->file = [];
+    }
+
 }

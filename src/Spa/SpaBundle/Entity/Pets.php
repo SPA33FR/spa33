@@ -94,7 +94,6 @@ class Pets
     /**
      * @var \Spa\SpaBundle\Entity\Races
      *
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="Spa\SpaBundle\Entity\Races")
      * @ORM\JoinColumns({

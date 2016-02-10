@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Administration</title>
+        <title>Administration - Création d'un article</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
@@ -20,47 +20,10 @@ and open the template in the editor.
                 {% include "::navbarAdmin.html.twig" %}
             </div>
             <div class="col-md-6">
-                blibli : {{blibli}}
-                {#<form action="">
-                    <label for="title">Titre</label>
-                    <input type="text" name="title" id="title"><br>
-                    <label for="subtitle">Sous-titre</label>
-                    <input type="text" name="subtitle" id="subtitle"><br>
-                    <label for="content">Contenu</label>
-                    <input type="text" name="content" id="content"><br>
-                    <label for="investigation">Article législatif</label>
-                    <input type="checkbox" name="investigation" id="investigation"><br>
-                    <label for="tags">Tags</label>
-                    <select name="tags" id="tags">
-                        {% for tag in tags %}
-                            <option value="{{tag.idTags}}">{{tag.name}}</option>
-                        {% endfor %}
-                    </select><br>
-                    <button type="submit">Créer</button>
-                </form>#}
-
-                {#{% form_theme form 'bootstrap_3_layout.html.twig' %}#}
-                {{ form_start(form, {'action': path('spa_spa_admin_add_articles'), 'method': 'GET'})}}
-                    {{form_label(form.title, "Titre de l'article")}}
-                    {{form_widget(form.title)}}
-                    {{form_label(form.subtitle, "Sous-titre de l'article")}}
-                    {{form_widget(form.subtitle)}}
-                    {{form_label(form.content, "Contenu")}}
-                    {{form_widget(form.content)}}
-                    {{form_label(form.investigation, "Article législatif")}}
-                    {{form_widget(form.investigation)}}
-                {{ form_end(form) }}
-                
-                {#{% for article in articles %}
-                     <li>{{article.title}}</li>
-                     <li>{{article.subtitle}}</li>
-                     <li>{{article.content}}</li>
-                     <li>{{article.publishdate|date('d/m/Y')}}</li>
-                     <li>{{article.modifdate|date('d/m/Y')}}</li>
-                         {% for image in article.imagesimages %}
-                         <img src="{{image.url}}">
-                     {% endfor %}
-                 {% endfor %} #}
+                {% if form %}
+                    {{ form_start(form, {'action': path('spa_spa_admin_add_articles'), 'method': 'POST'})}}
+                    {{ form_end(form) }}
+                {% endif %}
             </div>
         </div>
         {% javascripts '@SpaSpaBundle/Resources/views/lib/jquery-1.12.0.min.js' %}

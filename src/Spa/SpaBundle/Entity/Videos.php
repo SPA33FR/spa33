@@ -109,4 +109,36 @@ class Videos
     {
         return $this->petspets;
     }
+    
+    /*
+     * Functions Upload d'images
+     */
+    
+    public function getAbsoluteUrl()
+    {
+        return null === $this->url
+            ? null
+            : $this->getUploadRootDir().'/'.$this->url;
+    }
+
+    public function getWebUrl()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->url;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/videos';
+    }
 }

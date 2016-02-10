@@ -11,36 +11,41 @@ class AdminController extends Controller {
     }
 
     public function configurateArticlesAction() {
-//        $task = new \Spa\SpaBundle\Entity\Articles();
-//        $articlesForm = $this->createForm(\Spa\SpaBundle\Form\ArticlesType::class);
-//        $em = $this->getDoctrine()->getManager();
-//        $article = new \Spa\SpaBundle\Entity\Articles();
-//        $articles = $article->getAllArticles($em);
-//        return $this->render('SpaSpaBundle:Admin:articles.html.twig', array("articles" => $articles));
-//        $em = $this->getDoctrine()->getManager();
-//        $tag = new \Spa\SpaBundle\Entity\Tags();
-//        $tags = $tag->getAllTags($em);
-//        return $this->render('SpaSpaBundle:Admin:articles.html.twig', array("tags" => $tags));
-//        $request = $this->get('request');
-        $article = new \Spa\SpaBundle\Entity\Articles();
 
+        $article = new \Spa\SpaBundle\Entity\Articles();
         $form = $this->createForm(new \Spa\SpaBundle\Form\ArticlesType(), $article);
-        return $this->render('SpaSpaBundle:Admin:articles.html.twig', array("form" => $form->createView(), "blibli" => ''));
+        return $this->render('SpaSpaBundle:Admin:articles.html.twig', array("form" => $form->createView()));
     }
 
     public function addArticlesAction() {
+        // On récupère l'objet request via le service container
         $request = $this->get('request');
+        
+        
+        
+//        // On créé notre objet Articles vierge
         $article = new \Spa\SpaBundle\Entity\Articles();
-
-        $form = $this->createForm(new \Spa\SpaBundle\Form\ArticlesType(), $article);
+//        // On bind l'objet Articles à notre formulaire ArticlesType
+//        $form = $this->get('form.factory')->create(new \Spa\SpaBundle\Form\ArticlesType(), $article);
+//        
+        $form = $this->get('form.factory')->create(new \Spa\SpaBundle\Form\ArticlesType(), $article);
+        // Si on a posté le formulaire
         if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $post = $form->getData();
-                
+            var_dump($request->request->All());
+            
+            // On bind les données du form
+            $form->handleRequest($request);
+            // Si le formulaire est valide
+            if ($form->isSubmitted() && $form->isValid()) {
+                $article->setPublishdate(new \DateTime());
+                $article->setModifdate(new \DateTime());
+                $em = $this->getDoctrine()->getManager();
+                $article->uploadProfilePicture($em);
+                $em->persist($article);
+                $em->flush();
             }
         }
-        return $this->render('SpaSpaBundle:Admin:articles.html.twig', array("blibli" => $request));
+        return $this->render('SpaSpaBundle:Admin:articles.html.twig', array("form" => $form->createView()));
     }
 
 }

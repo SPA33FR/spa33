@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="images")
  * @ORM\Entity
  */
-class Images
-{
+class Images {
+
     /**
      * @var string
      *
@@ -45,12 +45,10 @@ class Images
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->petspets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->articlesarticles = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Set url
@@ -58,10 +56,9 @@ class Images
      * @param string $url
      * @return Images
      */
-    public function setUrl($url)
-    {
+    public function setUrl($url) {
         $this->url = $url;
-    
+
         return $this;
     }
 
@@ -70,8 +67,7 @@ class Images
      *
      * @return string 
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->url;
     }
 
@@ -80,8 +76,7 @@ class Images
      *
      * @return integer 
      */
-    public function getIdimages()
-    {
+    public function getIdimages() {
         return $this->idimages;
     }
 
@@ -91,10 +86,9 @@ class Images
      * @param \Spa\SpaBundle\Entity\Pets $petspets
      * @return Images
      */
-    public function addPetspet(\Spa\SpaBundle\Entity\Pets $petspets)
-    {
+    public function addPetspet(\Spa\SpaBundle\Entity\Pets $petspets) {
         $this->petspets[] = $petspets;
-    
+
         return $this;
     }
 
@@ -103,8 +97,7 @@ class Images
      *
      * @param \Spa\SpaBundle\Entity\Pets $petspets
      */
-    public function removePetspet(\Spa\SpaBundle\Entity\Pets $petspets)
-    {
+    public function removePetspet(\Spa\SpaBundle\Entity\Pets $petspets) {
         $this->petspets->removeElement($petspets);
     }
 
@@ -113,8 +106,7 @@ class Images
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getPetspets()
-    {
+    public function getPetspets() {
         return $this->petspets;
     }
 
@@ -124,10 +116,9 @@ class Images
      * @param \Spa\SpaBundle\Entity\Articles $articlesarticles
      * @return Images
      */
-    public function addArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles)
-    {
+    public function addArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles) {
         $this->articlesarticles[] = $articlesarticles;
-    
+
         return $this;
     }
 
@@ -136,8 +127,7 @@ class Images
      *
      * @param \Spa\SpaBundle\Entity\Articles $articlesarticles
      */
-    public function removeArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles)
-    {
+    public function removeArticlesarticle(\Spa\SpaBundle\Entity\Articles $articlesarticles) {
         $this->articlesarticles->removeElement($articlesarticles);
     }
 
@@ -146,40 +136,31 @@ class Images
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getArticlesarticles()
-    {
+    public function getArticlesarticles() {
         return $this->articlesarticles;
     }
-    
+
     /*
      * Functions Upload d'images
      */
-    
-    public function getAbsoluteUrl()
-    {
-        return null === $this->url
-            ? null
-            : $this->getUploadRootDir().'/'.$this->url;
+
+    public function getAbsoluteUrl() {
+        return null === $this->url ? null : $this->getUploadRootDir() . '/' . $this->url;
     }
 
-    public function getWebUrl()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadDir().'/'.$this->url;
+    public function getWebUrl() {
+        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->url;
     }
 
-    protected function getUploadRootDir()
-    {
+    protected function getUploadRootDir() {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
-    protected function getUploadDir()
-    {
+    protected function getUploadDir() {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
-        return 'uploads/documents';
+        return 'uploads/images';
     }
 }
