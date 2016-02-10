@@ -40,7 +40,7 @@ class AdminController extends Controller {
                 
             }
         }
-        return $this->render('SpaSpaBundle:Admin:articles.html.twig', array("blibli" => $post));
+        return $this->render('SpaSpaBundle:Admin:articles.html.twig', array("blibli" => $request));
     }
 
 }

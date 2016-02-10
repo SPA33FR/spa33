@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Tags
  *
  * @ORM\Table(name="tags")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Spa\SpaBundle\Form\EntityRepository")
  */
 class Tags
 {
