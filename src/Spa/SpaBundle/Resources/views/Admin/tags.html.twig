@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Administration - Création d'un article</title>
+        <title>Administration - Création d'un tag</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
@@ -21,7 +21,7 @@ and open the template in the editor.
             </div>
             <div class="col-md-6">
                 {% if form %}
-                    {{ form_start(form, {'action': path('spa_spa_admin_articles'), 'method': 'POST'})}}
+                    {{ form_start(form, {'action': path('spa_spa_admin_tags'), 'method': 'POST'})}}
                     {{ form_end(form) }}
                 {% endif %}
             </div>

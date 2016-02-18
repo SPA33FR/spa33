@@ -9,6 +9,11 @@ spa_spa_admin:
 spa_spa_admin_articles:
     path: /admin/configuration/articles
     defaults: { _controller: SpaSpaBundle:Admin:configurateArticles }
-spa_spa_admin_add_articles:
-    path: /admin/add/articles
-    defaults: { _controller: SpaSpaBundle:Admin:addArticles }
+    
+spa_spa_admin_races:
+    path: /admin/configuration/races
+    defaults: {_controller: SpaSpaBundle:Admin:configurateRaces }
+    
+spa_spa_admin_tags:
+    path: /admin/configuration/tags
+    defaults: {_controller: SpaSpaBundle:Admin:configurateTags }

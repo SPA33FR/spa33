@@ -377,7 +377,7 @@ class Articles {
         return 'uploads/pictures';
     }
 
-    public function uploadProfilePicture($em) {
+    public function uploadPicture($em) {
         // Nous utilisons le nom de fichier original, donc il est dans la pratique 
         // nécessaire de le nettoyer pour éviter les problèmes de sécurité
         // move copie le fichier présent chez le client dans le répertoire indiqué.

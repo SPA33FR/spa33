@@ -24,7 +24,7 @@ class ArticlesType extends AbstractType {
                 ->add('investigation', 'checkbox', array('label' => "Article après investigation judiciaire ?", 'required' => false))
                 ->add('tagstags', EntityType::class, array('label' => 'Tags', 'class' => 'SpaSpaBundle:Tags', 'choice_label' => 'name', 'multiple' => true))
                 ->add('file', FileType::class, array('data_class' => null, 'multiple' => true))
-                ->add('save',  SubmitType::class, array('label' => "Créer"))
+                ->add('save', SubmitType::class, array('label' => "Créer"))
                 ->getForm();
     }
 
