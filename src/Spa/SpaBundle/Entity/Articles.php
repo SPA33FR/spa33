@@ -4,6 +4,7 @@ namespace Spa\SpaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Articles
@@ -93,16 +94,11 @@ class Articles {
      * )
      */
     private $imagesimages;
-    
-    
-    
-    
+
     /**
      * @var array
      */
     public $file;
-    
-    
 
     /**
      * Constructor
@@ -367,7 +363,6 @@ class Articles {
      * Functions Upload Files
      */
 
-
     public function getWebPath() {
         return null === $this->pictureName ? null : $this->getUploadDir() . '/' . $this->pictureName;
     }
@@ -386,13 +381,28 @@ class Articles {
         // Nous utilisons le nom de fichier original, donc il est dans la pratique 
         // nécessaire de le nettoyer pour éviter les problèmes de sécurité
         // move copie le fichier présent chez le client dans le répertoire indiqué.
-  
-        for($i = 0; $i < count($this->file); $i++) {
-            $this->file[$i]->move($this->getUploadRootDir(), $this->file[$i]->getClientOriginalName());
+
+        for ($i = 0; $i < count($this->file); $i++) {
 
             // On sauvegarde le nom de fichier
             $images = new Images();
-            $images->setUrl($this->file[$i]->getClientOriginalName());
+            $fs = new Filesystem();
+            $fileName = $this->file[$i]->getClientOriginalName();
+            //Vérification de l'existence du fichier
+            // S'il existe, on ajoute une string et on revérifie
+            // 
+            while (file_exists($this->getUploadRootDir() .'/'. $fileName)) {
+                $match = '';
+                if ($fileName == $this->file[$i]->getClientOriginalName()) {
+                    $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
+                } else {
+                    preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
+                    $nextNumber = intval($match[1]) + 1;
+                    $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
+                }
+            }
+            $this->file[$i]->move($this->getUploadRootDir(), $fileName);
+            $images->setUrl($fileName);
             $this->addImagesimage($images);
             $em->persist($images);
             $em->flush();
