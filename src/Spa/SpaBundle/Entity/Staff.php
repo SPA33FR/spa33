@@ -12,19 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Staff
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="login", type="string", length=45, nullable=false)
-     */
-    private $login;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=45, nullable=false)
-     */
-    private $password;
 
     /**
      * @var string
@@ -82,31 +69,18 @@ class Staff
      */
     private $imagesimages;
 
-
-
     /**
-     * Set login
-     *
-     * @param string $login
-     * @return Staff
+     * @var array
      */
-    public function setLogin($login)
-    {
-        $this->login = $login;
+    public $file;
     
-        return $this;
-    }
-
     /**
-     * Get login
-     *
-     * @return string 
+     * Constructor
      */
-    public function getLogin()
-    {
-        return $this->login;
+    public function __construct() {
+        $this->file = array();
     }
-
+    
     /**
      * Set password
      *
@@ -323,5 +297,56 @@ class Staff
     public function deleteOne($em, $staff) {
         $em->remove($staff);
         $em->flush();
+    }
+    
+    /*
+     * Functions Upload Files
+     */
+
+    public function getWebPath() {
+        return null === $this->pictureName ? null : $this->getUploadDir() . '/' . $this->pictureName;
+    }
+
+    protected function getUploadRootDir() {
+        // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+    }
+
+    protected function getUploadDir() {
+        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+        return 'uploads/staff/pictures';
+    }
+
+    public function uploadPicture($em) {
+        // Nous utilisons le nom de fichier original, donc il est dans la pratique 
+        // nécessaire de le nettoyer pour éviter les problèmes de sécurité
+        // move copie le fichier présent chez le client dans le répertoire indiqué.
+
+        for ($i = 0; $i < count($this->file); $i++) {
+
+            // On sauvegarde le nom de fichier
+            $images = new Images();
+            $fileName = $this->file[$i]->getClientOriginalName();
+            //Vérification de l'existence du fichier
+            // S'il existe, on ajoute une string et on revérifie
+            // 
+            while (file_exists($this->getUploadRootDir() .'/'. $fileName)) {
+                $match = '';
+                if ($fileName == $this->file[$i]->getClientOriginalName()) {
+                    $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
+                } else {
+                    preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
+                    $nextNumber = intval($match[1]) + 1;
+                    $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
+                }
+            }
+            $this->file[$i]->move($this->getUploadRootDir(), $fileName);
+            $images->setUrl($fileName);
+            $this->addImagesimage($images);
+            $em->persist($images);
+            $em->flush();
+        }
+        // La propriété file ne servira plus
+        $this->file = [];
     }
 }

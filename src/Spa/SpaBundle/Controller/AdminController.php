@@ -68,4 +68,38 @@ class AdminController extends Controller {
         }
         return $this->render('SpaSpaBundle:Admin:tags.html.twig', array("form" => $form->createView()));
     }
+    
+    public function configurateStaffAction () {
+        $staff = new \Spa\SpaBundle\Entity\Staff();
+        $form = $this->createForm(new \Spa\SpaBundle\Form\StaffType(), $staff);
+        
+        $request = $this->get('request');
+        if('POST' == $request->getMethod()) {
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $staff->uploadPicture($em);
+                $em->persist($staff);
+                $em->flush();
+            }
+        }
+        return $this->render('SpaSpaBundle:Admin:staff.html.twig', array("form" => $form->createView()));
+    }
+    
+    public function configuratePetsAction () {
+        $pets = new \Spa\SpaBundle\Entity\Pets();
+        $form = $this->createForm(new \Spa\SpaBundle\Form\PetsType(), $pets);
+        $request = $this->get('request');
+        if('POST' == $request->getMethod()) {
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $pets->uploadPicture($em);
+                $pets->uploadVideo($em);
+                $em->persist($pets);
+                $em->flush();
+            }
+        }
+        return $this->render('SpaSpaBundle:Admin:pets.html.twig', array("form" => $form->createView()));
+    }
 }

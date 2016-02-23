@@ -3,8 +3,6 @@
 namespace Spa\SpaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Articles
@@ -374,7 +372,7 @@ class Articles {
 
     protected function getUploadDir() {
         // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
-        return 'uploads/pictures';
+        return 'uploads/articles/pictures';
     }
 
     public function uploadPicture($em) {
@@ -386,7 +384,6 @@ class Articles {
 
             // On sauvegarde le nom de fichier
             $images = new Images();
-            $fs = new Filesystem();
             $fileName = $this->file[$i]->getClientOriginalName();
             //Vérification de l'existence du fichier
             // S'il existe, on ajoute une string et on revérifie

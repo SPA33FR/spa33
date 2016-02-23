@@ -17,3 +17,11 @@ spa_spa_admin_races:
 spa_spa_admin_tags:
     path: /admin/configuration/tags
     defaults: {_controller: SpaSpaBundle:Admin:configurateTags }
+    
+spa_spa_admin_pets:
+    path: /admin/configuration/pets
+    defaults: {_controller: SpaSpaBundle:Admin:configuratePets }
+    
+spa_spa_admin_staff:
+    path: /admin/configuration/staff
+    defaults: {_controller: SpaSpaBundle:Admin:configurateStaff }

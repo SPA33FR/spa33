@@ -7,7 +7,6 @@
     <id name="idpets" type="integer" column="idPets"/>
     <id name="racesraces" association-key="true"/>
     <field name="reference" type="string" column="reference" length="45" nullable="true"/>
-    <field name="medal" type="string" column="medal" length="45" nullable="true"/>
     <field name="sex" type="boolean" column="sex" nullable="true"/>
     <field name="description" type="string" column="description" length="255" nullable="true"/>
     <field name="arrivaldate" type="date" column="arrivaldate" nullable="true"/>

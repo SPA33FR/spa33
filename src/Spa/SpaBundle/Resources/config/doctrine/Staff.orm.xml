@@ -6,8 +6,6 @@
     </indexes>
     <id name="idstaff" type="integer" column="idStaff"/>
     <id name="imagesimages" association-key="true"/>
-    <field name="login" type="string" column="login" length="45" nullable="false"/>
-    <field name="password" type="string" column="password" length="45" nullable="false"/>
     <field name="firstname" type="string" column="firstname" length="45" nullable="true"/>
     <field name="lastname" type="string" column="lastname" length="45" nullable="true"/>
     <field name="sex" type="boolean" column="sex" nullable="true"/>

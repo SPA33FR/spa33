@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Administration - Création d'une fiche animale</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+              integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
+              crossorigin="anonymous">
+    </head>
+
+    <body>      
+        <div class="row">
+            <div class="col-md-3" id="leftCol">
+                {% include "::navbarAdmin.html.twig" %}
+            </div>
+            <div class="col-md-6">
+                {% if form %}
+                    {{ form_start(form, {'action': path('spa_spa_admin_pets'), 'method': 'POST'})}}
+                    {{ form_end(form) }}
+                {% endif %}
+            </div>
+        </div>
+        {% javascripts '@SpaSpaBundle/Resources/views/lib/jquery-1.12.0.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@SpaSpaBundle/Resources/views/js/changeView.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    </body>
+</html>

@@ -20,13 +20,6 @@ class Pets
     private $reference;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="medal", type="string", length=45, nullable=true)
-     */
-    private $medal;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="sex", type="boolean", nullable=true)
@@ -131,6 +124,16 @@ class Pets
      * )
      */
     private $imagesimages;
+    
+    /**
+     * @var array
+     */
+    public $filePicture;
+    
+    /**
+     * @var array
+     */
+    public $fileVideo;
 
     /**
      * Constructor
@@ -139,6 +142,8 @@ class Pets
     {
         $this->videosvideos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->imagesimages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->filePicture = array();
+        $this->fileVideo = array();
     }
 
 
@@ -163,29 +168,6 @@ class Pets
     public function getReference()
     {
         return $this->reference;
-    }
-
-    /**
-     * Set medal
-     *
-     * @param string $medal
-     * @return Pets
-     */
-    public function setMedal($medal)
-    {
-        $this->medal = $medal;
-    
-        return $this;
-    }
-
-    /**
-     * Get medal
-     *
-     * @return string 
-     */
-    public function getMedal()
-    {
-        return $this->medal;
     }
 
     /**
@@ -528,4 +510,100 @@ class Pets
         $em->remove($pet);
         $em->flush();
     }
+    
+    
+    /*
+     * Functions Upload Files
+     */
+
+    public function getWebPath() {
+        return null === $this->pictureName ? null : $this->getUploadDir() . '/' . $this->pictureName;
+    }
+
+    protected function getUploadRootPictureDir() {
+        // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
+        return __DIR__ . '/../../../../web/' . $this->getUploadPictureDirDir();
+    }
+    
+    protected function getUploadRootVideoDir() {
+        // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
+        return __DIR__ . '/../../../../web/' . $this->getUploadVideoDirDir();
+    }
+
+    protected function getUploadPictureDir() {
+        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+        return 'uploads/pets/pictures';
+    }
+    
+    protected function getUploadVideoDir() {
+        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+        return 'uploads/pets/videos';
+    }
+
+    public function uploadPicture($em) {
+        // Nous utilisons le nom de fichier original, donc il est dans la pratique 
+        // nécessaire de le nettoyer pour éviter les problèmes de sécurité
+        // move copie le fichier présent chez le client dans le répertoire indiqué.
+
+        for ($i = 0; $i < count($this->filePicture); $i++) {
+
+            // On sauvegarde le nom de fichier
+            $images = new Images();
+            $fileName = $this->filePicture[$i]->getClientOriginalName();
+            //Vérification de l'existence du fichier
+            // S'il existe, on ajoute une string et on revérifie
+            // 
+            while (file_exists($this->getUploadRootPictureDir() .'/'. $fileName)) {
+                $match = '';
+                if ($fileName == $this->filePicture[$i]->getClientOriginalName()) {
+                    $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
+                } else {
+                    preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
+                    $nextNumber = intval($match[1]) + 1;
+                    $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
+                }
+            }
+            $this->filePicture[$i]->move($this->getUploadRootPictureDir(), $fileName);
+            $images->setUrl($fileName);
+            $this->addImagesimage($images);
+            $em->persist($images);
+            $em->flush();
+        }
+        // La propriété file ne servira plus
+        $this->filePicture = [];
+    }
+    
+    public function uploadVideo($em) {
+        // Nous utilisons le nom de fichier original, donc il est dans la pratique 
+        // nécessaire de le nettoyer pour éviter les problèmes de sécurité
+        // move copie le fichier présent chez le client dans le répertoire indiqué.
+
+        for ($i = 0; $i < count($this->fileVideo); $i++) {
+
+            // On sauvegarde le nom de fichier
+            $images = new Images();
+            $fileName = $this->fileVideo[$i]->getClientOriginalName();
+            //Vérification de l'existence du fichier
+            // S'il existe, on ajoute une string et on revérifie
+            // 
+            while (file_exists($this->getUploadRootVideoDir() .'/'. $fileName)) {
+                $match = '';
+                if ($fileName == $this->fileVideo[$i]->getClientOriginalName()) {
+                    $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
+                } else {
+                    preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
+                    $nextNumber = intval($match[1]) + 1;
+                    $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
+                }
+            }
+            $this->fileVideo[$i]->move($this->getUploadRootVideoDir(), $fileName);
+            $images->setUrl($fileName);
+            $this->addImagesimage($images);
+            $em->persist($images);
+            $em->flush();
+        }
+        // La propriété file ne servira plus
+        $this->fileVideo = [];
+    }
+    
 }
