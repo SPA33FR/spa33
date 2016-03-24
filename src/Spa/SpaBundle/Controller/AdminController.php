@@ -171,16 +171,22 @@ class AdminController extends Controller {
     public function modifRacesAction($id) {
         $em = $this->getDoctrine()->getManager();
         $race = $em->getRepository('SpaSpaBundle:Races')->find($id);
-        $form = $this->createForm(new \Spa\SpaBundle\Form\RacesType(), $race);
 
+        return $this->render('SpaSpaBundle:Admin:modifRaces.html.twig', array("race" => $race));
+    }
+
+    public function savemodifRacesAction() {
         $request = $this->get('request');
+        if ($request->getMethod() == "POST") {
+            $race = $_POST["Races"];
+            $em = $this->getDoctrine()->getManager();
 
-        if ('POST' == $request->getMethod()) {
-            $form->handleRequest($request);
-            // TODO Modifier l'entité en DB
-            $em->flush();
+            $em->getConnection()->executeUpdate("UPDATE races "
+                    . "SET name = ? "
+                    . "WHERE idraces = ?", array($race["name"], $race["idraces"]));
+            
+            return $this->redirectToRoute("spa_spa_admin_allraces");
         }
-        return $this->render('SpaSpaBundle:Admin:races.html.twig', array("form" => $form->createView()));
     }
 
     public function configurateTagsAction() {
@@ -199,6 +205,32 @@ class AdminController extends Controller {
             }
         }
         return $this->render('SpaSpaBundle:Admin:tags.html.twig', array("form" => $form->createView()));
+    }
+    
+    public function allTagsAction () {
+        $em = $this->getDoctrine()->getManager();
+        $tags = $em->getRepository('SpaSpaBundle:Tags')->findAll();
+        return $this->render('SpaSpaBundle:Admin:allTags.html.twig', array("tags" => $tags));
+    }
+    
+    public function modifTagsAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $tag = $em->getRepository('SpaSpaBundle:Tags')->find($id);
+        
+        return $this->render('SpaSpaBundle:Admin:modifTags.html.twig', array("tag" => $tag));
+    }
+    
+    public function savemodifTagsAction() {
+        $request = $this->get('request');
+        if($request->getMethod() == "POST") {
+            $tag = $_POST["Tags"];
+            $em = $this->getDoctrine()->getManager();
+            $em->getConnection()->executeUpdate("UPDATE tags "
+                    . "SET name = ? "
+                    . "WHERE idTags = ?", array($tag["name"], $tag["idTags"]));
+            
+            return $this->redirectToRoute("spa_spa_admin_alltags");
+        }
     }
 
     public function configurateStaffAction() {
@@ -232,7 +264,7 @@ class AdminController extends Controller {
         if ($staff->getImagesimages() != null) {
             $img = "../../../../../web/uploads/staff/pictures/" . $staff->getImagesimages()->getUrl();
         }
-        
+
         return $this->render('SpaSpaBundle:Admin:modifStaff.html.twig', array("staff" => $staff, 'img' => $img));
     }
 
@@ -246,9 +278,9 @@ class AdminController extends Controller {
             $old_staff = $em->getRepository('SpaSpaBundle:Staff')->find($staff["idstaff"]);
 
             $files = $_FILES["Staff"]["name"]["file"];
-            
+
             $fileName = str_replace(' ', '_', $files);
-            
+
             while (file_exists($old_staff->getUploadRootDir() . '/' . $fileName)) {
                 $match = '';
                 if ($fileName == str_replace(' ', '_', $files)) {
@@ -259,12 +291,12 @@ class AdminController extends Controller {
                     $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
                 }
             }
-            unlink($old_staff->getUploadRootDir().'/'. $old_staff->getImagesimages()->getUrl());
+            unlink($old_staff->getUploadRootDir() . '/' . $old_staff->getImagesimages()->getUrl());
             move_uploaded_file($_FILES["Staff"]["tmp_name"]["file"], __DIR__ . "/../../../../web/uploads/staff/pictures/" . $fileName);
-            
-            $em->getConnection()->executeUpdate('INSERT INTO images (url) VALUES (\''.$fileName.'\')');
-            
-            $sql_img = $em->getConnection()->prepare("SELECT idImages FROM images WHERE url LIKE '".$fileName."'");
+
+            $em->getConnection()->executeUpdate('INSERT INTO images (url) VALUES (\'' . $fileName . '\')');
+
+            $sql_img = $em->getConnection()->prepare("SELECT idImages FROM images WHERE url LIKE '" . $fileName . "'");
             $sql_img->execute();
             $idImage = $sql_img->fetchAll();
             $em->getConnection()->executeUpdate('UPDATE staff '
