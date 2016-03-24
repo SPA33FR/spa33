@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Administration - Modification d'un article</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+              integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
+              crossorigin="anonymous">
+    </head>
+
+    <body>      
+        <div class="row">
+            <div class="col-md-3" id="leftCol">
+                {% include "::navbarAdmin.html.twig" %}
+            </div>
+            <div class="col-md-6">
+                <form name="Articles" method="post" 
+                      action="/spa33/web/app_dev.php/admin/save/articles" enctype="multipart/form-data">
+                    <input type="hidden" id="Articles_idarticles" name="Articles[idarticles]" class="form-control" value="{{article.idarticles}}">
+                    <div class="form-group">
+                        <label class="control-label required" for="Articles_title">Titre</label>
+                        <input type="text" id="Articles_title" name="Articles[title]" required="required" class="form-control" value={{article.title}}>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="Articles_subtitle">Sous-titre</label>
+                        <input type="text" id="Articles_subtitle" name="Articles[subtitle]" required="required" class="form-control" value={{article.subtitle}}>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="Articles_content">Contenu de l'article</label>
+                        <textarea id="Articles_content" name="Articles[content]" required="required" class="form-control">{{article.content}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="Articles_tagstags">Tags</label>
+                        <select id="Articles_tagstags" name="Articles[tagstags][]" required="required" class="form-control" multiple="multiple"> 
+                            {% for value in tags %}
+
+                                {% if value in article.tagstags %}
+                                    <option value={{value.idTags}} selected>{{value.name}}
+                                    {% else %}
+                                    <option value={{value.idTags}}>{{value.name}}
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="Articles_file">File</label>
+                        <span><br>Attention !! Veuillez à remettre la/les même(s) images si vous souhaitez conservées celles existantes.</span>
+                        <input type="file" id="Articles_file" name="Articles[file][]" multiple="multiple">
+                        {% for img in imgs %}
+                            <img src={{img}} width="150" heigth="150">
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="Articles_save" name="Articles[save]" class="btn-default btn">Modifier</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% javascripts '@SpaSpaBundle/Resources/views/lib/jquery-1.12.0.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@SpaSpaBundle/Resources/views/js/changeView.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    </body>
+</html>

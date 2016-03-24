@@ -97,6 +97,15 @@ class Articles {
      * @var array
      */
     public $file;
+    
+    public function getFile() {
+        return $this->file;
+    }
+    
+    public function setFile($arr) {
+        $this->file = $arr;
+        return $this;
+    }
 
     /**
      * Constructor
@@ -241,6 +250,14 @@ class Articles {
     public function getIdarticles() {
         return $this->idarticles;
     }
+    
+    /**
+     * Set idarticles
+     */
+    public function setIdarticles($idarticles) {
+        $this->idarticles = $idarticles;
+        return $this;
+    }
 
     /**
      * Add tagstags
@@ -262,7 +279,7 @@ class Articles {
     public function removeTagstag(\Spa\SpaBundle\Entity\Tags $tagstags) {
         $this->tagstags->removeElement($tagstags);
     }
-
+    
     /**
      * Get tagstags
      *
@@ -365,12 +382,12 @@ class Articles {
         return null === $this->pictureName ? null : $this->getUploadDir() . '/' . $this->pictureName;
     }
 
-    protected function getUploadRootDir() {
+    public function getUploadRootDir() {
         // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
-    protected function getUploadDir() {
+    public function getUploadDir() {
         // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
         return 'uploads/articles/pictures';
     }
@@ -407,5 +424,12 @@ class Articles {
         // La propriété file ne servira plus
         $this->file = [];
     }
-
+    
+    public function loadPicture() {
+        $arr_images = [];
+        for($i = 0; $i < count($this->imagesimages); $i++) {
+            $arr_images[$i] = $this->getUploadRootDir().'/'.$this->imagesimages[$i]->getUrl();
+        }
+        return $arr_images;
+    }
 }

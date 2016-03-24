@@ -20,6 +20,9 @@ spa_spa_admin_modifarticles:
     path: /admin/modification/articles/{id}
     defaults: {_controller: SpaSpaBundle:Admin:modifArticles }
     
+spa_spa_admin_savemodifarticles:
+    path: /admin/save/articles
+    defaults: {_controller: SpaSpaBundle:Admin:savemodifArticles}
     
     
 spa_spa_admin_races:

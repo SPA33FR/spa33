@@ -18,12 +18,13 @@ class ArticlesType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->setMethod('POST')
+                ->add('idarticles', 'hidden', array('required' => false))
                 ->add('title', 'text', array('required' => true, 'label' => 'Titre', 'error_bubbling' => false))
                 ->add('subtitle', 'text', array('required' => true, 'label' => 'Sous-titre', 'error_bubbling' => false))
                 ->add('content', 'textarea', array('required' => true, 'label' => 'Contenu de l\'article', 'error_bubbling' => false))
                 ->add('investigation', 'checkbox', array('label' => "Article après investigation judiciaire ?", 'required' => false))
                 ->add('tagstags', EntityType::class, array('label' => 'Tags', 'class' => 'SpaSpaBundle:Tags', 'choice_label' => 'name', 'multiple' => true))
-                ->add('file', FileType::class, array('data_class' => null, 'multiple' => true))
+                ->add('file', FileType::class, array('data_class' => null, 'multiple' => true, 'required' => false))
                 ->add('save', SubmitType::class, array('label' => "Créer"))
                 ->getForm();
     }
