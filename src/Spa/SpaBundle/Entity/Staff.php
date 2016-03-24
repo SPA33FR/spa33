@@ -53,7 +53,7 @@ class Staff
      *
      * @ORM\Column(name="idStaff", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idstaff;
 
@@ -70,16 +70,9 @@ class Staff
     private $imagesimages;
 
     /**
-     * @var array
+     * @var object
      */
     public $file;
-    
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->file = array();
-    }
     
     /**
      * Set password
@@ -307,12 +300,12 @@ class Staff
         return null === $this->pictureName ? null : $this->getUploadDir() . '/' . $this->pictureName;
     }
 
-    protected function getUploadRootDir() {
+    public function getUploadRootDir() {
         // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
-    protected function getUploadDir() {
+    public function getUploadDir() {
         // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
         return 'uploads/staff/pictures';
     }
@@ -322,17 +315,15 @@ class Staff
         // nécessaire de le nettoyer pour éviter les problèmes de sécurité
         // move copie le fichier présent chez le client dans le répertoire indiqué.
 
-        for ($i = 0; $i < count($this->file); $i++) {
-
             // On sauvegarde le nom de fichier
             $images = new Images();
-            $fileName = $this->file[$i]->getClientOriginalName();
+            $fileName = str_replace(' ', '_', $this->file->getClientOriginalName());
             //Vérification de l'existence du fichier
             // S'il existe, on ajoute une string et on revérifie
             // 
             while (file_exists($this->getUploadRootDir() .'/'. $fileName)) {
                 $match = '';
-                if ($fileName == $this->file[$i]->getClientOriginalName()) {
+                if ($fileName == str_replace(' ', '_', $this->file->getClientOriginalName())) {
                     $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
                 } else {
                     preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
@@ -340,13 +331,12 @@ class Staff
                     $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
                 }
             }
-            $this->file[$i]->move($this->getUploadRootDir(), $fileName);
+            $this->file->move($this->getUploadRootDir(), $fileName);
             $images->setUrl($fileName);
-            $this->addImagesimage($images);
+            $this->setImagesimages($images);
             $em->persist($images);
             $em->flush();
-        }
         // La propriété file ne servira plus
-        $this->file = [];
+        $this->file = null;
     }
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Administration - Modification d'un article</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+              integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
+              crossorigin="anonymous">
+    </head>
+
+    <body>      
+        <div class="row">
+            <div class="col-md-3" id="leftCol">
+                {% include "::navbarAdmin.html.twig" %}
+            </div>
+            <div class="col-md-6">
+                <form name="Staff" method="post" 
+                      action="/spa33/web/app_dev.php/admin/save/staff" enctype="multipart/form-data">
+                    <input type="hidden" id="Staff_idstaff" name="Staff[idstaff]" class="form-control" value="{{staff.idstaff}}">
+                    <div class="form-group">
+                        <label class="control-label required" for="Staff_firstname">Prénom</label>
+                        <input type="text" id="Staff_firstname" name="Staff[firstname]" required="required" class="form-control" value="{{staff.firstname}}">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="Staff_lastname">Nom</label>
+                        <input type="text" id="Staff_lastname" name="Staff[lastname]" required="required" class="form-control" value="{{staff.lastname}}">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="Staff_sex">Sexe</label>
+                        <select id="Staff_sex" name="Staff[sex]" class="form-control">
+                            {% if staff.sex == 0 %}
+                                <option value="0" selected>Masculin</option>
+                                <option value="1">Féminin</option>
+                            {% else %}
+                                <option value="0">Masculin</option>
+                                <option value="1" selected>Féminin</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="Staff_role">Rôle au sein de l'association</label>
+                        <input type="text" id="Staff_role" name="Staff[role]" required="required" class="form-control" value="{{staff.role}}">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="Staff_file">Photo</label>
+                        <span><br>Attention !! Veillez à remettre la même image si vous souhaitez conserver celle existante.</span>
+                        <input type="file" id="Staff_file" name="Staff[file]" required="required"><br>
+                        <img src={{img}} width="150" heigth="150">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="Staff_save" name="Staff[save]" class="btn-default btn">Modifier</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% javascripts '@SpaSpaBundle/Resources/views/lib/jquery-1.12.0.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts '@SpaSpaBundle/Resources/views/js/changeView.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    </body>
+</html>

@@ -97,15 +97,6 @@ class Articles {
      * @var array
      */
     public $file;
-    
-    public function getFile() {
-        return $this->file;
-    }
-    
-    public function setFile($arr) {
-        $this->file = $arr;
-        return $this;
-    }
 
     /**
      * Constructor
@@ -401,13 +392,13 @@ class Articles {
 
             // On sauvegarde le nom de fichier
             $images = new Images();
-            $fileName = $this->file[$i]->getClientOriginalName();
+            $fileName = str_replace(' ', '_', $this->file[$i]->getClientOriginalName());
             //Vérification de l'existence du fichier
             // S'il existe, on ajoute une string et on revérifie
             // 
             while (file_exists($this->getUploadRootDir() .'/'. $fileName)) {
                 $match = '';
-                if ($fileName == $this->file[$i]->getClientOriginalName()) {
+                if ($fileName == str_replace(' ', '_', $this->file[$i]->getClientOriginalName())) {
                     $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
                 } else {
                     preg_match("/\((\d+)\)\.\w+/", $fileName, $match);

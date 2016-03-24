@@ -50,3 +50,15 @@ spa_spa_admin_pets:
 spa_spa_admin_staff:
     path: /admin/configuration/staff
     defaults: {_controller: SpaSpaBundle:Admin:configurateStaff }
+    
+spa_spa_admin_modifstaff:
+    path: /admin/modification/staff/{id}
+    defaults: {_controller: SpaSpaBundle:Admin:modifStaff}
+    
+spa_spa_admin_allstaff:
+    path: /admin/staff
+    defaults: {_controller: SpaSpaBundle:Admin:allStaff}
+
+spa_spa_admin_savemodifstaff:
+    path: /admin/save/staff
+    defaults: {_controller: SpaSpaBundle:Admin:savemodifStaff}

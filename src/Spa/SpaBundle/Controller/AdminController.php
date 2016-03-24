@@ -105,12 +105,12 @@ class AdminController extends Controller {
 
             $querySelectImages = '';
             for ($i = 0; $i < count($files); $i++) {
-                $fileName = $files[$i];
+                $fileName = str_replace(' ', '_', $files[$i]);
 
 
                 while (file_exists($old_article->getUploadRootDir() . '/' . $fileName)) {
                     $match = '';
-                    if ($fileName == $files[$i]) {
+                    if ($fileName == str_replace(' ', '_', $files[$i])) {
                         $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
                     } else {
                         preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
@@ -118,7 +118,6 @@ class AdminController extends Controller {
                         $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
                     }
                 }
-                echo $fileName . '<br>';
                 $querySelectImages .= '\'' . $fileName . '\'';
                 $queryImages .= '(\'' . $fileName . '\')';
                 if ($i != count($files) - 1) {
@@ -129,7 +128,6 @@ class AdminController extends Controller {
             }
 
             $em->getConnection()->executeUpdate($queryImages);
-            echo "SELECT idImages FROM images WHERE url in (" . $querySelectImages . ")";
             $sql_imgs = $em->getConnection()->prepare("SELECT idImages FROM images WHERE url IN (" . $querySelectImages . ")");
             $sql_imgs->execute();
             $idImages = $sql_imgs->fetchAll();
@@ -215,9 +213,71 @@ class AdminController extends Controller {
                 $staff->uploadPicture($em);
                 $em->persist($staff);
                 $em->flush();
+                return $this->redirectToRoute('spa_spa_admin_allstaff');
             }
         }
         return $this->render('SpaSpaBundle:Admin:staff.html.twig', array("form" => $form->createView()));
+    }
+
+    public function allStaffAction() {
+        $em = $this->getDoctrine()->getManager();
+        $staffs = $em->getRepository('SpaSpaBundle:Staff')->findAll();
+        return $this->render('SpaSpaBundle:Admin:allStaff.html.twig', array("staffs" => $staffs));
+    }
+
+    public function modifStaffAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $staff = $em->getRepository('SpaSpaBundle:Staff')->find($id);
+        $img = null;
+        if ($staff->getImagesimages() != null) {
+            $img = "../../../../../web/uploads/staff/pictures/" . $staff->getImagesimages()->getUrl();
+        }
+        
+        return $this->render('SpaSpaBundle:Admin:modifStaff.html.twig', array("staff" => $staff, 'img' => $img));
+    }
+
+    public function savemodifStaffAction() {
+        $request = $this->get('request');
+        if ($request->getMethod() == "POST") {
+            $staff = $_POST["Staff"];
+
+            $em = $this->getDoctrine()->getManager();
+
+            $old_staff = $em->getRepository('SpaSpaBundle:Staff')->find($staff["idstaff"]);
+
+            $files = $_FILES["Staff"]["name"]["file"];
+            
+            $fileName = str_replace(' ', '_', $files);
+            
+            while (file_exists($old_staff->getUploadRootDir() . '/' . $fileName)) {
+                $match = '';
+                if ($fileName == str_replace(' ', '_', $files)) {
+                    $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
+                } else {
+                    preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
+                    $nextNumber = intval($match[1]) + 1;
+                    $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
+                }
+            }
+            unlink($old_staff->getUploadRootDir().'/'. $old_staff->getImagesimages()->getUrl());
+            move_uploaded_file($_FILES["Staff"]["tmp_name"]["file"], __DIR__ . "/../../../../web/uploads/staff/pictures/" . $fileName);
+            
+            $em->getConnection()->executeUpdate('INSERT INTO images (url) VALUES (\''.$fileName.'\')');
+            
+            $sql_img = $em->getConnection()->prepare("SELECT idImages FROM images WHERE url LIKE '".$fileName."'");
+            $sql_img->execute();
+            $idImage = $sql_img->fetchAll();
+            $em->getConnection()->executeUpdate('UPDATE staff '
+                    . 'SET firstName = ?, '
+                    . 'lastName = ?, '
+                    . 'sex = ?, '
+                    . 'role = ?, '
+                    . 'Images_idImages = ?'
+                    . 'WHERE idStaff = ?', array($staff["firstname"], $staff["lastname"], $staff["sex"],
+                $staff["role"], $idImage[0]["idImages"], $staff["idstaff"]));
+
+            return $this->redirectToRoute('spa_spa_admin_allstaff');
+        }
     }
 
     public function configuratePetsAction() {

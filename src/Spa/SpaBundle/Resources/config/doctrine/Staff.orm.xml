@@ -4,12 +4,13 @@
     <indexes>
       <index name="fk_Staff_Images1_idx" columns="Images_idImages"/>
     </indexes>
-    <id name="idstaff" type="integer" column="idStaff"/>
-    <id name="imagesimages" association-key="true"/>
+    <id name="idstaff" type="integer" column="idStaff">
+        <generator strategy="IDENTITY"/>
+    </id>
     <field name="firstname" type="string" column="firstname" length="45" nullable="true"/>
     <field name="lastname" type="string" column="lastname" length="45" nullable="true"/>
     <field name="sex" type="boolean" column="sex" nullable="true"/>
-    <field name="role" type="string" column="role" length="45" nullable="true"/>
+    <field name="role" type="string" column="role" length="255" nullable="true"/>
     <field name="type" type="boolean" column="type" nullable="true"/>
     <one-to-one field="imagesimages" target-entity="Images">
       <join-columns>

@@ -24,7 +24,7 @@ class ArticlesType extends AbstractType {
                 ->add('content', 'textarea', array('required' => true, 'label' => 'Contenu de l\'article', 'error_bubbling' => false))
                 ->add('investigation', 'checkbox', array('label' => "Article après investigation judiciaire ?", 'required' => false))
                 ->add('tagstags', EntityType::class, array('label' => 'Tags', 'class' => 'SpaSpaBundle:Tags', 'choice_label' => 'name', 'multiple' => true))
-                ->add('file', FileType::class, array('data_class' => null, 'multiple' => true, 'required' => false))
+                ->add('file', FileType::class, array('data_class' => null, 'multiple' => true, 'required' => false, 'label' => 'Photos'))
                 ->add('save', SubmitType::class, array('label' => "Créer"))
                 ->getForm();
     }
