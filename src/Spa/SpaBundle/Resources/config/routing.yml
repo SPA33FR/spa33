@@ -30,6 +30,7 @@ spa_spa_admin_savemodifarticles:
     
     
     
+    
 spa_spa_admin_races:
     path: /admin/configuration/races
     defaults: {_controller: SpaSpaBundle:Admin:configurateRaces }
@@ -46,6 +47,9 @@ spa_spa_admin_savemodifraces:
     path: /admin/save/races
     defaults: {_controller: SpaSpaBundle:Admin:savemodifRaces}
 
+spa_spa_admin_deleteraces:
+    path: /admin/delete/races/{id}
+    defaults: {_controller: SpaSpaBundle:Admin:deleteRaces}
 
 
 
@@ -66,6 +70,9 @@ spa_spa_admin_tags:
     path: /admin/configuration/tags
     defaults: {_controller: SpaSpaBundle:Admin:configurateTags }
     
+spa_spa_admin_deletetags:
+    path: /admin/delete/tags/{id}
+    defaults: {_controller: SpaSpaBundle:Admin:deleteTags}
     
     
     
@@ -92,3 +99,7 @@ spa_spa_admin_allstaff:
 spa_spa_admin_savemodifstaff:
     path: /admin/save/staff
     defaults: {_controller: SpaSpaBundle:Admin:savemodifStaff}
+    
+spa_spa_admin_deletestaff:
+    path: /admin/delete/staff/{id}
+    defaults: {_controller: SpaSpaBundle:Admin:deleteStaff}

@@ -143,6 +143,16 @@ class AdminController extends Controller {
             return $this->redirectToRoute('spa_spa_admin_allarticles');
         }
     }
+    
+    public function deleteArticlesAction($id) {
+        $em = $this->getDoctrine()->getmanager();
+        $article = $em->getRepository('SpaSpaBundle:Articles')->find($id);
+        // TODO finir la suppression des images
+        
+        return $this->redirectToRoute('spa_spa_admin_allarticles');
+    }
+    
+    
 
     public function configurateRacesAction() {
 
@@ -184,10 +194,20 @@ class AdminController extends Controller {
             $em->getConnection()->executeUpdate("UPDATE races "
                     . "SET name = ? "
                     . "WHERE idraces = ?", array($race["name"], $race["idraces"]));
-            
+
             return $this->redirectToRoute("spa_spa_admin_allraces");
         }
     }
+
+    public function deleteRacesAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $race = $em->getRepository('SpaSpaBundle:Races')->find($id);
+        $em->remove($race);
+        $em->flush();
+        return $this->redirectToRoute('spa_spa_admin_allraces');
+    }
+    
+    
 
     public function configurateTagsAction() {
 
@@ -206,32 +226,43 @@ class AdminController extends Controller {
         }
         return $this->render('SpaSpaBundle:Admin:tags.html.twig', array("form" => $form->createView()));
     }
-    
-    public function allTagsAction () {
+
+    public function allTagsAction() {
         $em = $this->getDoctrine()->getManager();
         $tags = $em->getRepository('SpaSpaBundle:Tags')->findAll();
         return $this->render('SpaSpaBundle:Admin:allTags.html.twig', array("tags" => $tags));
     }
-    
+
     public function modifTagsAction($id) {
         $em = $this->getDoctrine()->getManager();
         $tag = $em->getRepository('SpaSpaBundle:Tags')->find($id);
-        
+
         return $this->render('SpaSpaBundle:Admin:modifTags.html.twig', array("tag" => $tag));
     }
-    
+
     public function savemodifTagsAction() {
         $request = $this->get('request');
-        if($request->getMethod() == "POST") {
+        if ($request->getMethod() == "POST") {
             $tag = $_POST["Tags"];
             $em = $this->getDoctrine()->getManager();
             $em->getConnection()->executeUpdate("UPDATE tags "
                     . "SET name = ? "
                     . "WHERE idTags = ?", array($tag["name"], $tag["idTags"]));
-            
+
             return $this->redirectToRoute("spa_spa_admin_alltags");
         }
     }
+
+    public function deleteTagsAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $tag = $em->getRepository('SpaSpaBundle:Tags')->find($id);
+        $em->remove($tag);
+        $em->flush();
+        
+        return $this->redirectToRoute('spa_spa_admin_alltags');
+    }
+    
+    
 
     public function configurateStaffAction() {
         $staff = new \Spa\SpaBundle\Entity\Staff();
@@ -311,6 +342,20 @@ class AdminController extends Controller {
             return $this->redirectToRoute('spa_spa_admin_allstaff');
         }
     }
+    
+    public function deleteStaffAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $staff = $em->getRepository('SpaSpaBundle:Staff')->find($id);
+        $img = $em->getRepository('SpaSpaBundle:Images')->find($staff->getImagesimages()->getIdimages());
+        unlink(__DIR__ . "/../../../../web/uploads/staff/pictures/" . $staff->getImagesimages()->getUrl());
+        $em->remove($img);
+        $em->remove($staff);
+        $em->flush();
+        
+        return $this->redirectToRoute('spa_spa_admin_allstaff');
+    }
+    
+    
 
     public function configuratePetsAction() {
         $pets = new \Spa\SpaBundle\Entity\Pets();
@@ -320,6 +365,10 @@ class AdminController extends Controller {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                $date = new \DateTime();
+                $pets->setArrivaldate($date->setTimestamp($pets->getArrivaldate()));
+                $datebirth = new \DateTime();
+                $pets->setBirthdate($datebirth->setTimestamp($pets->getBirthdate()));
                 $pets->uploadPicture($em);
                 $pets->uploadVideo($em);
                 $em->persist($pets);

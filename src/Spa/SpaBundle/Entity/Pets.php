@@ -80,7 +80,7 @@ class Pets
      *
      * @ORM\Column(name="idPets", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idpets;
 
@@ -522,12 +522,12 @@ class Pets
 
     protected function getUploadRootPictureDir() {
         // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
-        return __DIR__ . '/../../../../web/' . $this->getUploadPictureDirDir();
+        return __DIR__ . '/../../../../web/' . $this->getUploadPictureDir();
     }
     
     protected function getUploadRootVideoDir() {
         // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
-        return __DIR__ . '/../../../../web/' . $this->getUploadVideoDirDir();
+        return __DIR__ . '/../../../../web/' . $this->getUploadVideoDir();
     }
 
     protected function getUploadPictureDir() {
@@ -549,13 +549,13 @@ class Pets
 
             // On sauvegarde le nom de fichier
             $images = new Images();
-            $fileName = $this->filePicture[$i]->getClientOriginalName();
+            $fileName = str_replace(' ', '_',$this->filePicture[$i]->getClientOriginalName());
             //Vérification de l'existence du fichier
             // S'il existe, on ajoute une string et on revérifie
             // 
             while (file_exists($this->getUploadRootPictureDir() .'/'. $fileName)) {
                 $match = '';
-                if ($fileName == $this->filePicture[$i]->getClientOriginalName()) {
+                if ($fileName == str_replace(' ', '_',$this->filePicture[$i]->getClientOriginalName())) {
                     $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
                 } else {
                     preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
@@ -581,14 +581,14 @@ class Pets
         for ($i = 0; $i < count($this->fileVideo); $i++) {
 
             // On sauvegarde le nom de fichier
-            $images = new Images();
-            $fileName = $this->fileVideo[$i]->getClientOriginalName();
+            $videos = new Videos();
+            $fileName = str_replace(' ', '_',$this->fileVideo[$i]->getClientOriginalName());
             //Vérification de l'existence du fichier
             // S'il existe, on ajoute une string et on revérifie
             // 
             while (file_exists($this->getUploadRootVideoDir() .'/'. $fileName)) {
                 $match = '';
-                if ($fileName == $this->fileVideo[$i]->getClientOriginalName()) {
+                if ($fileName == str_replace(' ', '_',$this->fileVideo[$i]->getClientOriginalName())) {
                     $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
                 } else {
                     preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
@@ -597,9 +597,9 @@ class Pets
                 }
             }
             $this->fileVideo[$i]->move($this->getUploadRootVideoDir(), $fileName);
-            $images->setUrl($fileName);
-            $this->addImagesimage($images);
-            $em->persist($images);
+            $videos->setUrl($fileName);
+            $this->addVideosvideo($videos);
+            $em->persist($videos);
             $em->flush();
         }
         // La propriété file ne servira plus

@@ -24,7 +24,7 @@ and open the template in the editor.
                     <li>
                         {{staff.firstname}}&nbsp;{{staff.lastname}}
                         <a href="{{ path('spa_spa_admin_modifstaff', {'id': staff.idStaff}) }}" class="btn btn-default">Modifier</a>
-                        
+                        <a href="{{ path('spa_spa_admin_deletestaff', {'id': staff.idStaff}) }}" class="btn btn-default">Supprimer</a>
                     </li>
                 {% endfor %}
             </div>

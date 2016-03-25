@@ -4,8 +4,9 @@
     <indexes>
       <index name="fk_Pets_Races1_idx" columns="Races_idraces"/>
     </indexes>
-    <id name="idpets" type="integer" column="idPets"/>
-    <id name="racesraces" association-key="true"/>
+    <id name="idpets" type="integer" column="idPets">
+        <generator strategy="IDENTITY"/>
+    </id>
     <field name="reference" type="string" column="reference" length="45" nullable="true"/>
     <field name="sex" type="boolean" column="sex" nullable="true"/>
     <field name="description" type="string" column="description" length="255" nullable="true"/>

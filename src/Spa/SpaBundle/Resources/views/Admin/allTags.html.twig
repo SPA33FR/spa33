@@ -24,6 +24,7 @@ and open the template in the editor.
                     <li>
                         {{tag.name}}
                         <a href="{{ path('spa_spa_admin_modiftags', {'id': tag.idTags}) }}" class="btn btn-default">Modifier</a>
+                        <a href="{{ path('spa_spa_admin_deletetags', {'id': tag.idTags}) }}" class="btn btn-default">Supprimer</a>
                     </li>
                 {% endfor %}
             </div>

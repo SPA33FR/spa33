@@ -18,6 +18,7 @@ class PetsType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->setMethod('POST')
+                ->add('idpets', 'hidden', array('required' => false))
                 ->add('reference', 'text', array('required' => false, 'label' => 'Numéro du box ou de médaille', 'error_bubbling' => false))
                 ->add('type', 'choice', array('choices' => array(0 => 'Chien', 1 => 'Chat', 2 => 'Autre'), 
                                                             'multiple' => false, 
@@ -33,6 +34,7 @@ class PetsType extends AbstractType {
                 ->add('arrivaldate', 'date', array('label' => 'Date d\'arrivée', 'widget' => 'choice', 'input' => 'timestamp','format' => 'd/M/y',
                                                    'empty_value' => array('year' => 'Année', 'month' => 'Mois', 'day' => 'Jour'),
                                                    'pattern' => "{{ day }}/{{ month }}/{{ year }}"))
+                ->add('petofmonth', 'checkbox', array('label' => "Animal du mois ?", 'required' => false))
                 ->add('description', 'textarea', array('required' => true, 'label' => 'Description', 'error_bubbling' => false))
                 ->add('filePicture', FileType::class, array('data_class' => null, 'multiple' => true, 'label' => 'Photos'))
                 ->add('fileVideo', FileType::class, array('data_class' => null, 'multiple' => true, 'label' => 'Vidéos'))
