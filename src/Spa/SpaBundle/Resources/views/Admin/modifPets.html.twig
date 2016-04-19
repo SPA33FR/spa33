@@ -9,140 +9,144 @@ and open the template in the editor.
         <title>Administration - Modification d'un article</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
-              integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
-              crossorigin="anonymous">
+
+        {% stylesheets '@SpaSpaBundle/Resources/views/css/style.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" >
+        {% endstylesheets %}
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
     </head>
 
     <body>      
-        <div class="row">
-            <div class="col-md-3" id="leftCol">
-                {% include "::navbarAdmin.html.twig" %}
-            </div>
-            <div class="col-md-6">
-                <form id="pets" name="pets" method="POST" action="/spa33/web/app_dev.php/admin/save/pets" enctype="multipart/form-data">
-                    <input type="hidden" id="pets_idpet" name="pets[idpets]" class="form-control" value="{{pet.idpets}}">
-                    <div class="form-group">
-                        <label class="control-label" for="pets_reference">Numéro du box ou de médaille</label>
-                        <input type="text" id="pets_reference" name="pets[reference]" class="form-control" value="{{pet.reference}}">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label required" for="pets_type">Type</label>
-                        <select id="pets_type" name="pets[type]" class="form-control">
-                            {% if pet.type == 0 %}
-                                <option value="0" selected>Chien</option> 
-                                <option value="1">Chat</option> 
-                                <option value="2">Autre</option>
-                            {% elseif pet.type == 1 %}
-                                <option value="0">Chien</option> 
-                                <option value="1" selected>Chat</option> 
-                                <option value="2">Autre</option>
+        {% include "::navbarAdmin.html.twig" %}
+        <div class="container theme-showcase" role="main">
+            <form id="pets" name="pets" method="POST" action="/spa33/web/app_dev.php/admin/save/pets" enctype="multipart/form-data">
+                <input type="hidden" id="pets_idpet" name="pets[idpets]" class="form-control" value="{{pet.idpets}}">
+                <div class="form-group">
+                    <label class="control-label" for="pets_reference">Numéro du box ou de médaille</label>
+                    <input type="text" id="pets_reference" name="pets[reference]" class="form-control" value="{{pet.reference}}">
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="pets_type">Type</label>
+                    <select id="pets_type" name="pets[type]" class="form-control">
+                        {% if pet.type == 0 %}
+                            <option value="0" selected>Chien</option> 
+                            <option value="1">Chat</option> 
+                            <option value="2">Autre</option>
+                        {% elseif pet.type == 1 %}
+                            <option value="0">Chien</option> 
+                            <option value="1" selected>Chat</option> 
+                            <option value="2">Autre</option>
+                        {% else %}
+                            <option value="0">Chien</option> 
+                            <option value="1">Chat</option> 
+                            <option value="2" selected>Autre</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="pets_racesraces">Race</label>
+                    <select id="pets_racesraces" name="pets[racesraces]" required="required" class="form-control">
+                        {% for race in races %}
+                            {% if race.name == pet.racesraces.name %}
+                                <option value="{{loop.index}}" selected>{{race.name}}</option>
                             {% else %}
-                                <option value="0">Chien</option> 
-                                <option value="1">Chat</option> 
-                                <option value="2" selected>Autre</option>
+                                <option value="{{loop.index}}">{{race.name}}</option>
                             {% endif %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label required" for="pets_racesraces">Race</label>
-                        <select id="pets_racesraces" name="pets[racesraces]" required="required" class="form-control">
-                            {% for race in races %}
-                                {% if race.name == pet.racesraces.name %}
-                                    <option value="{{loop.index}}" selected>{{race.name}}</option>
-                                {% else %}
-                                    <option value="{{loop.index}}">{{race.name}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label required" for="pets_sex">Sexe</label>
-                        <select id="pets_sex" name="pets[sex]" class="form-control">
-                            {% if pet.sex == 0 %}
-                                <option value="0" selected>Mâle</option>
-                                <option value="1">Femelle</option>
-                            {% else %}
-                                <option value="0">Mâle</option>
-                                <option value="1" selected>Femelle</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label required" for="pets_size">Taille</label>
-                        <select id="pets_size" name="pets[size]" class="form-control">
-                            {% if pet.size == 0 %}
-                                <option value="0" selected>Petit</option>
-                                <option value="1">Moyen</option>
-                                <option value="2">Grand</option>
-                            {% elseif pet.size == 1 %}
-                                <option value="0">Petit</option>
-                                <option value="1" selected>Moyen</option>
-                                <option value="2">Grand</option>
-                            {% else %}
-                                <option value="0">Petit</option>
-                                <option value="1">Moyen</option>
-                                <option value="2" selected>Grand</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label required">Date de naissance</label>
-                        <div id="pets_birthdate" class="form-inline">
-                            <input type="date" name="pets[birthdate]" value="{{pet.birthdate|date('Y-m-d')}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label required">Date d'arrivée</label>
-                        <div id="pets_arrivaldate" class="form-inline">
-                            <input type="date" name="pets[arrivaldate]" value="{{pet.arrivaldate|date('Y-m-d')}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                {% if pet.petofmonth == 0 %}
-                                    <input type="checkbox" id="pets_petofmonth" name="pets[petofmonth]" value="0"> Animal du mois ?
-                                {% else %}
-                                    <input type="checkbox" id="pets_petofmonth" name="pets[petofmonth]" value="1" checked> Animal du mois ?
-                                {% endif %}
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label required" for="pets_description">Description</label>
-                        <textarea id="pets_description" name="pets[description]" required="required" class="form-control">{{pet.description}}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label required" for="pets_filePicture">Photos</label>
-                        <input type="file" id="pets_filePicture" name="pets[filePicture][]" required="required" multiple="multiple">
-                        {% for img in imgs %}
-                            <img src={{img}} width="150" heigth="150">
                         {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="pets_sex">Sexe</label>
+                    <select id="pets_sex" name="pets[sex]" class="form-control">
+                        {% if pet.sex == 0 %}
+                            <option value="0" selected>Mâle</option>
+                            <option value="1">Femelle</option>
+                        {% else %}
+                            <option value="0">Mâle</option>
+                            <option value="1" selected>Femelle</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="pets_size">Taille</label>
+                    <select id="pets_size" name="pets[size]" class="form-control">
+                        {% if pet.size == 0 %}
+                            <option value="0" selected>Petit</option>
+                            <option value="1">Moyen</option>
+                            <option value="2">Grand</option>
+                        {% elseif pet.size == 1 %}
+                            <option value="0">Petit</option>
+                            <option value="1" selected>Moyen</option>
+                            <option value="2">Grand</option>
+                        {% else %}
+                            <option value="0">Petit</option>
+                            <option value="1">Moyen</option>
+                            <option value="2" selected>Grand</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label required">Date de naissance</label>
+                    <div id="pets_birthdate" class="form-inline">
+                        <input type="date" name="pets[birthdate]" value="{{pet.birthdate|date('Y-m-d')}}">
                     </div>
-                    <div class="form-group">
-                        <label class="control-label required" for="pets_fileVideo">Vidéos</label>
-                        <input type="file" id="pets_fileVideo" name="pets[fileVideo][]" required="required" multiple="multiple">
-                        {% for video in videos %}
-                            <video width="150" heigth="150" controls>
-                                <source src={{video}}>
-                                Your browser does not support the video tag. Please update it.
-                            </video>
-                        {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label class="control-label required">Date d'arrivée</label>
+                    <div id="pets_arrivaldate" class="form-inline">
+                        <input type="date" name="pets[arrivaldate]" value="{{pet.arrivaldate|date('Y-m-d')}}">
                     </div>
-                    <div class="form-group">
-                        <button type="submit" id="pets_save" name="pets[save]" class="btn-default btn">Modifier</button>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            {% if pet.petofmonth == 0 %}
+                                <input type="checkbox" id="pets_petofmonth" name="pets[petofmonth]" value="0"> Animal du mois ?
+                            {% else %}
+                                <input type="checkbox" id="pets_petofmonth" name="pets[petofmonth]" value="1" checked> Animal du mois ?
+                            {% endif %}
+                        </label>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="pets_description">Description</label>
+                    <textarea id="pets_description" name="pets[description]" required="required" class="form-control">{{pet.description}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="pets_filePicture">Photos</label>
+                    <input type="file" id="pets_filePicture" name="pets[filePicture][]" required="required" multiple="multiple">
+                    {% for img in imgs %}
+                        <img src={{img}} width="150" heigth="150">
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="pets_fileVideo">Vidéos</label>
+                    <input type="file" id="pets_fileVideo" name="pets[fileVideo][]" required="required" multiple="multiple">
+                    {% for video in videos %}
+                        <video width="150" heigth="150" controls>
+                            <source src={{video}}>
+                            Your browser does not support the video tag. Please update it.
+                        </video>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <button type="submit" id="pets_save" name="pets[save]" class="btn-default btn">Modifier</button>
+                </div>
+            </form>
         </div>
-        {% javascripts '@SpaSpaBundle/Resources/views/lib/jquery-1.12.0.min.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-        {% javascripts '@SpaSpaBundle/Resources/views/js/changeView.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
     </body>
 </html>
 

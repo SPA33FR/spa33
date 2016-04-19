@@ -1,14 +1,14 @@
 li ul.collapse {
-  visibility: visible;
+    visibility: visible;
 }
 .container-full{
-	  margin: 0 auto;
-  	  width: 100%;
+    margin: 0 auto;
+    width: 100%;
 }
 .intro{
-	background-color: white;
-	padding-top:30px;
-	padding-bottom:30px;
+    background-color: white;
+    padding-top:30px;
+    padding-bottom:30px;
 
 }
 .vtitle{background-color: rgb(185, 187, 88);}
@@ -17,3 +17,7 @@ li ul.collapse {
 .whitetext{color : white;}
 .darkgreen{color : rgb(100, 134, 55);}
 .darkred{color : rgb(187, 77, 41);}
+
+div[role=main] {
+    padding-top: 60px;
+}

@@ -9,30 +9,34 @@ and open the template in the editor.
         <title>Administration - Création d'une race</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
-              integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
-              crossorigin="anonymous">
+
+        {% stylesheets '@SpaSpaBundle/Resources/views/css/style.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" >
+        {% endstylesheets %}
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
     </head>
 
     <body>      
-        <div class="row">
-            <div class="col-md-3" id="leftCol">
-                {% include "::navbarAdmin.html.twig" %}
-            </div>
-            <div class="col-md-6">
-                {% if form %}
-                    {{ form_start(form, {'action': path('spa_spa_admin_races'), 'method': 'POST'})}}
-                    {{ form_row(form._token) }}
-                    {{ form_end(form) }}
-                {% endif %}
-            </div>
+        {% include "::navbarAdmin.html.twig" %}
+        <div class="container theme-showcase" role="main">
+            {% if form %}
+                {{ form_start(form, {'action': path('spa_spa_admin_races'), 'method': 'POST'})}}
+                {{ form_row(form._token) }}
+                {{ form_end(form) }}
+            {% endif %}
         </div>
-        {% javascripts '@SpaSpaBundle/Resources/views/lib/jquery-1.12.0.min.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-        {% javascripts '@SpaSpaBundle/Resources/views/js/changeView.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
     </body>
 </html>
