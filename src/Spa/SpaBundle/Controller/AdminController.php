@@ -3,7 +3,6 @@
 namespace Spa\SpaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Doctrine\ORM\Query\ResultSetMapping;
 
 class AdminController extends Controller {
 
@@ -143,16 +142,14 @@ class AdminController extends Controller {
             return $this->redirectToRoute('spa_spa_admin_allarticles');
         }
     }
-    
+
     public function deleteArticlesAction($id) {
         $em = $this->getDoctrine()->getmanager();
         $article = $em->getRepository('SpaSpaBundle:Articles')->find($id);
         // TODO finir la suppression des images
-        
+
         return $this->redirectToRoute('spa_spa_admin_allarticles');
     }
-    
-    
 
     public function configurateRacesAction() {
 
@@ -206,8 +203,6 @@ class AdminController extends Controller {
         $em->flush();
         return $this->redirectToRoute('spa_spa_admin_allraces');
     }
-    
-    
 
     public function configurateTagsAction() {
 
@@ -258,11 +253,9 @@ class AdminController extends Controller {
         $tag = $em->getRepository('SpaSpaBundle:Tags')->find($id);
         $em->remove($tag);
         $em->flush();
-        
+
         return $this->redirectToRoute('spa_spa_admin_alltags');
     }
-    
-    
 
     public function configurateStaffAction() {
         $staff = new \Spa\SpaBundle\Entity\Staff();
@@ -342,7 +335,7 @@ class AdminController extends Controller {
             return $this->redirectToRoute('spa_spa_admin_allstaff');
         }
     }
-    
+
     public function deleteStaffAction($id) {
         $em = $this->getDoctrine()->getManager();
         $staff = $em->getRepository('SpaSpaBundle:Staff')->find($id);
@@ -351,11 +344,9 @@ class AdminController extends Controller {
         $em->remove($img);
         $em->remove($staff);
         $em->flush();
-        
+
         return $this->redirectToRoute('spa_spa_admin_allstaff');
     }
-    
-    
 
     public function configuratePetsAction() {
         $pets = new \Spa\SpaBundle\Entity\Pets();
@@ -363,6 +354,7 @@ class AdminController extends Controller {
         $request = $this->get('request');
         if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
+            // TODO Prendre en compte le fait d'être vétéran
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $date = new \DateTime();
@@ -373,9 +365,157 @@ class AdminController extends Controller {
                 $pets->uploadVideo($em);
                 $em->persist($pets);
                 $em->flush();
+                return $this->redirectToRoute('spa_spa_admin_allpets');
             }
         }
         return $this->render('SpaSpaBundle:Admin:pets.html.twig', array("form" => $form->createView()));
+    }
+
+    public function allPetsAction() {
+        $em = $this->getDoctrine()->getManager();
+        $pets = $em->getRepository('SpaSpaBundle:Pets')->findAll();
+        return $this->render('SpaSpaBundle:Admin:allPets.html.twig', array("pets" => $pets));
+    }
+
+    public function modifPetsAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $pet = $em->getRepository('SpaSpaBundle:Pets')->find($id);
+        $races = $em->getRepository('SpaSpaBundle:Races')->findAll();
+        $imgs = null;
+        if ($pet->getImagesimages() != null) {
+            for ($i = 0; $i < count($pet->getImagesimages()); $i++) {
+                $imgs[$i] = "../../../../../web/uploads/pets/pictures/" . $pet->getImagesimages()[$i]->getUrl();
+            }
+        }
+        $videos = null;
+        if ($pet->getVideosvideos() != null) {
+            for ($i = 0; $i < count($pet->getVideosvideos()); $i++) {
+                $videos[$i] = "../../../../../web/uploads/pets/videos/" . $pet->getVideosVideos()[$i]->getUrl();
+            }
+        }
+
+        return $this->render('SpaSpaBundle:Admin:modifPets.html.twig', array("pet" => $pet, 'imgs' => $imgs, 'videos' => $videos, 'races' => $races));
+    }
+
+    public function savemodifPetsAction() {
+        $request = $this->get('request');
+        if ($request->getMethod() == "POST") {
+            $pet = $_POST["pets"];
+
+            $filesPicture = $_FILES["pets"]["name"]["filePicture"];
+            $filesVideo = $_FILES["pets"]["name"]["fileVideo"];
+
+            $em = $this->getDoctrine()->getManager();
+
+            $old_pet = $em->getRepository('SpaSpaBundle:Pets')->find($pet["idpets"]);
+
+            // Suppression des anciennes images
+            $sql_delete_pets_has_imgs = $em->getConnection()->prepare('DELETE FROM pets_has_images WHERE Pets_idPets LIKE \''.$pet["idpets"].'\'');
+            $sql_delete_pets_has_imgs->execute();
+            for ($i = 0; $i < count($old_pet->getImagesimages()); $i++) {
+                unlink($old_pet->getUploadRootPictureDir() . '/' . $old_pet->getImagesimages()[$i]->getUrl());
+                $sql_delete_imgs = $em->getConnection()->prepare('DELETE FROM images WHERE url LIKE \''.$old_pet->getImagesimages()[$i]->getUrl(). '\'');
+                $sql_delete_imgs->execute();
+            }
+            
+            // Suppression des anciennes vidéos
+            $sql_delete_pets_has_videos = $em->getConnection()->prepare('DELETE FROM pets_has_videos WHERE Pets_idPets LIKE \''. $pet["idpets"].'\'');
+            $sql_delete_pets_has_videos->execute();
+            for ($i = 0; $i < count($old_pet->getVideosvideos()); $i++) {
+                unlink($old_pet->getUploadRootVideoDir() . '/' . $old_pet->getVideosvideos()[$i]->getUrl());
+                $sql_delete_videos = $em->getConnection()->prepare('DELETE FROM videos WHERE url LIKE \''. $old_pet->getVideosvideos()[$i]->getUrl().'\'');
+                $sql_delete_videos->execute();
+            }
+            
+
+            // Sauvegarde des nouvelles images
+            $querySelectImages = '';
+            for ($i = 0; $i < count($filesPicture); $i++) {
+                $fileName = str_replace(' ', '_', $filesPicture[$i]);
+                while (file_exists($old_pet->getUploadRootPictureDir() . '/' . $fileName)) {
+                    $match = '';
+                    if ($fileName == str_replace(' ', '_', $filesPictures[$i])) {
+                        $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
+                    } else {
+                        preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
+                        $nextNumber = intval($match[1]) + 1;
+                        $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
+                    }
+                }
+                $querySelectImages .= '\'' . $fileName . '\'';
+                if ($i != count($filesPicture) - 1) {
+                    $querySelectImages .= ',';
+                }
+                move_uploaded_file($_FILES["pets"]["tmp_name"]["filePicture"][$i], __DIR__ . "/../../../../web/uploads/pets/pictures/" . $fileName);
+                $em->getConnection()->executeUpdate('INSERT INTO images (url) VALUES (\'' . $fileName . '\')');
+            }
+
+            // Sauvegarde des nouvelles vidéos
+            $querySelectVideos = '';
+            for ($i = 0; $i < count($filesVideo); $i++) {
+                $fileName = str_replace(' ', '_', $filesVideo[$i]);
+                while (file_exists($old_pet->getUploadRootVideoDir() . '/' . $fileName)) {
+                    $match = '';
+                    if ($fileName == str_replace(' ', '_', $filesVideos[$i])) {
+                        $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
+                    } else {
+                        preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
+                        $nextNumber = intval($match[1]) + 1;
+                        $fileName = preg_replace("/((.+)\()\d+(\)\.\w+)/", '${1}' . $nextNumber . '$3', $fileName);
+                    }
+                }
+                $querySelectVideos .= '\'' . $fileName . '\'';
+                if ($i != count($filesVideo) - 1) {
+                    $querySelectVideos .= ',';
+                }
+                move_uploaded_file($_FILES["pets"]["tmp_name"]["fileVideo"][$i], __DIR__ . "/../../../../web/uploads/pets/videos/" . $fileName);
+                $em->getConnection()->executeUpdate('INSERT INTO videos (url) VALUES (\'' . $fileName . '\')');
+            }
+            if($querySelectImages !== '') {
+            $sql_imgs = $em->getConnection()->prepare("SELECT DISTINCT url, idImages FROM images WHERE url IN (" . $querySelectImages . ") ORDER BY idImages DESC");
+            $sql_imgs->execute();
+            $idImages = $sql_imgs->fetchAll();
+            } else {
+                $idImages = [];
+            }
+
+            if($querySelectVideos != '') {
+            $sql_videos = $em->getConnection()->prepare("SELECT DISTINCT url, idVideos FROM videos WHERE url IN (" . $querySelectVideos . ") ORDER BY idVideos DESC");
+            $sql_videos->execute();
+            $idVideos = $sql_videos->fetchAll();
+            } else {
+                $idVideos = [];
+            }
+            
+            for ($i = 0; $i < count($filesPicture); $i++) {
+                $sql_new_imgs = $em->getConnection()->prepare('INSERT INTO pets_has_images (Pets_idPets, Images_idImages) VALUES (' . $pet["idpets"] . ',' . $idImages[$i]["idImages"] . ')');
+                $sql_new_imgs->execute();
+            }
+
+            for ($i = 0; $i < count($filesVideo); $i++) {
+                $sql_new_videos = $em->getConnection()->prepare('INSERT INTO pets_has_videos (Pets_idPets, Videos_idVideos) VALUES (' . $pet["idpets"] . ', ' . $idVideos[$i]["idVideos"] . ')');
+                $sql_new_videos->execute();
+            }
+
+            $pet_of_month = isset($pet["petofmonth"]) ? 1 : 0;
+
+            
+            // TODO Ajouter la prise en compte du Veteran
+            $sql_pet = $em->getConnection()->prepare('UPDATE pets SET '
+                    . 'reference = \'?\', '
+                    . 'sex = \'?\', '
+                    . 'description = \'?\','
+                    . 'arrivaldate = \'?\','
+                    . 'birthdate = \'?\','
+                    . 'petofmonth = \'?\','
+                    . 'size = \'?\','
+                    . 'type = \'?\','
+                    . 'Races_idRaces = \'?\' '
+                    . 'WHERE idPets = \'?\'', array($pet["reference"], $pet["sex"], $pet["description"], new \DateTime(str_replace('/', '-', $pet["arrivaldate"])), new \DateTime(str_replace('/', '-', $pet["birthdate"])), $pet_of_month, $pet["size"], $pet["type"], $pet["racesraces"], $pet["idpets"]));
+            $sql_pet->execute();
+
+            return $this->redirectToRoute('spa_spa_admin_allpets');
+        }
     }
 
 }

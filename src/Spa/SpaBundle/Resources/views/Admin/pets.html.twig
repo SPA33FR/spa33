@@ -22,6 +22,7 @@ and open the template in the editor.
             <div class="col-md-6">
                 {% if form %}
                     {{ form_start(form, {'action': path('spa_spa_admin_pets'), 'method': 'POST'})}}
+                    {{ form_row(form._token) }}
                     {{ form_end(form) }}
                 {% endif %}
             </div>

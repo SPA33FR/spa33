@@ -26,6 +26,10 @@ spa_spa_admin_savemodifarticles:
     path: /admin/save/articles
     defaults: {_controller: SpaSpaBundle:Admin:savemodifArticles}
     
+spa_spa_admin_deletearticles:
+    path: /admin/delete/articles/{id}
+    defaults: {_controller: SpaSpaBundle:Admin:deleteArticles}
+    
     
     
     
@@ -79,6 +83,18 @@ spa_spa_admin_deletetags:
 spa_spa_admin_pets:
     path: /admin/configuration/pets
     defaults: {_controller: SpaSpaBundle:Admin:configuratePets }
+    
+spa_spa_admin_allpets:
+    path: /admin/pets
+    defaults: {_controller: SpaSpaBundle:Admin:allPets}
+    
+spa_spa_admin_modifpets:
+    path: /admin/modification/pets/{id}
+    defaults: {_controller: SpaSpaBundle:Admin:modifPets}
+    
+spa_spa_admin_savemodifpets:
+    path: /admin/save/pets
+    defaults: {_controller: SpaSpaBundle:Admin:savemodifPets}
     
     
     

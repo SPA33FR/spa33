@@ -520,22 +520,22 @@ class Pets
         return null === $this->pictureName ? null : $this->getUploadDir() . '/' . $this->pictureName;
     }
 
-    protected function getUploadRootPictureDir() {
+    public function getUploadRootPictureDir() {
         // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
         return __DIR__ . '/../../../../web/' . $this->getUploadPictureDir();
     }
     
-    protected function getUploadRootVideoDir() {
+    public function getUploadRootVideoDir() {
         // le chemin absolu du répertoire dans lequel sauvegarder les photos de profil
         return __DIR__ . '/../../../../web/' . $this->getUploadVideoDir();
     }
 
-    protected function getUploadPictureDir() {
+    public function getUploadPictureDir() {
         // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
         return 'uploads/pets/pictures';
     }
     
-    protected function getUploadVideoDir() {
+    public function getUploadVideoDir() {
         // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
         return 'uploads/pets/videos';
     }
