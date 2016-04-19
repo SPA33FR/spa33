@@ -146,6 +146,20 @@ class AdminController extends Controller {
     public function deleteArticlesAction($id) {
         $em = $this->getDoctrine()->getmanager();
         $article = $em->getRepository('SpaSpaBundle:Articles')->find($id);
+        $em->remove($article);
+        $em->flush();
+        $sql_imgs = $em->getConnection()->prepare("SELECT Images_idImages FROM articles_has_images WHERE articles_idarticles LIKE '" . $id . "'");
+        $sql_imgs->execute();
+        $idImages = $sql_imgs->fetchAll();
+        if (count($idImages) != 0) {
+            $sql_del_imgs = $em->getConnection()->prepare("DELETE FROM images WHERE idImages IN (" . implode(',', $idImages) . ")");
+            $sql_del_imgs->execute();
+        }
+        $sql_has_imgs = $em->getConnection()->prepare("DELETE FROM articles_has_images WHERE articles_idarticles LIKE '" . $id . "'");
+        $sql_has_imgs->execute();
+        for ($i = 0; $i < count($article->getImagesimages()); $i++) {
+            unlink(__DIR__ . "/../../../../web/uploads/articles/pictures/" . $article->getImagesimages()[$i]->getUrl());
+        }
         // TODO finir la suppression des images
 
         return $this->redirectToRoute('spa_spa_admin_allarticles');
@@ -410,23 +424,23 @@ class AdminController extends Controller {
             $old_pet = $em->getRepository('SpaSpaBundle:Pets')->find($pet["idpets"]);
 
             // Suppression des anciennes images
-            $sql_delete_pets_has_imgs = $em->getConnection()->prepare('DELETE FROM pets_has_images WHERE Pets_idPets LIKE \''.$pet["idpets"].'\'');
+            $sql_delete_pets_has_imgs = $em->getConnection()->prepare('DELETE FROM pets_has_images WHERE Pets_idPets LIKE \'' . $pet["idpets"] . '\'');
             $sql_delete_pets_has_imgs->execute();
             for ($i = 0; $i < count($old_pet->getImagesimages()); $i++) {
                 unlink($old_pet->getUploadRootPictureDir() . '/' . $old_pet->getImagesimages()[$i]->getUrl());
-                $sql_delete_imgs = $em->getConnection()->prepare('DELETE FROM images WHERE url LIKE \''.$old_pet->getImagesimages()[$i]->getUrl(). '\'');
+                $sql_delete_imgs = $em->getConnection()->prepare('DELETE FROM images WHERE url LIKE \'' . $old_pet->getImagesimages()[$i]->getUrl() . '\'');
                 $sql_delete_imgs->execute();
             }
-            
+
             // Suppression des anciennes vidéos
-            $sql_delete_pets_has_videos = $em->getConnection()->prepare('DELETE FROM pets_has_videos WHERE Pets_idPets LIKE \''. $pet["idpets"].'\'');
+            $sql_delete_pets_has_videos = $em->getConnection()->prepare('DELETE FROM pets_has_videos WHERE Pets_idPets LIKE \'' . $pet["idpets"] . '\'');
             $sql_delete_pets_has_videos->execute();
             for ($i = 0; $i < count($old_pet->getVideosvideos()); $i++) {
                 unlink($old_pet->getUploadRootVideoDir() . '/' . $old_pet->getVideosvideos()[$i]->getUrl());
-                $sql_delete_videos = $em->getConnection()->prepare('DELETE FROM videos WHERE url LIKE \''. $old_pet->getVideosvideos()[$i]->getUrl().'\'');
+                $sql_delete_videos = $em->getConnection()->prepare('DELETE FROM videos WHERE url LIKE \'' . $old_pet->getVideosvideos()[$i]->getUrl() . '\'');
                 $sql_delete_videos->execute();
             }
-            
+
 
             // Sauvegarde des nouvelles images
             $querySelectImages = '';
@@ -471,22 +485,22 @@ class AdminController extends Controller {
                 move_uploaded_file($_FILES["pets"]["tmp_name"]["fileVideo"][$i], __DIR__ . "/../../../../web/uploads/pets/videos/" . $fileName);
                 $em->getConnection()->executeUpdate('INSERT INTO videos (url) VALUES (\'' . $fileName . '\')');
             }
-            if($querySelectImages !== '') {
-            $sql_imgs = $em->getConnection()->prepare("SELECT DISTINCT url, idImages FROM images WHERE url IN (" . $querySelectImages . ") ORDER BY idImages DESC");
-            $sql_imgs->execute();
-            $idImages = $sql_imgs->fetchAll();
+            if ($querySelectImages !== '') {
+                $sql_imgs = $em->getConnection()->prepare("SELECT DISTINCT url, idImages FROM images WHERE url IN (" . $querySelectImages . ") ORDER BY idImages DESC");
+                $sql_imgs->execute();
+                $idImages = $sql_imgs->fetchAll();
             } else {
                 $idImages = [];
             }
 
-            if($querySelectVideos != '') {
-            $sql_videos = $em->getConnection()->prepare("SELECT DISTINCT url, idVideos FROM videos WHERE url IN (" . $querySelectVideos . ") ORDER BY idVideos DESC");
-            $sql_videos->execute();
-            $idVideos = $sql_videos->fetchAll();
+            if ($querySelectVideos != '') {
+                $sql_videos = $em->getConnection()->prepare("SELECT DISTINCT url, idVideos FROM videos WHERE url IN (" . $querySelectVideos . ") ORDER BY idVideos DESC");
+                $sql_videos->execute();
+                $idVideos = $sql_videos->fetchAll();
             } else {
                 $idVideos = [];
             }
-            
+
             for ($i = 0; $i < count($filesPicture); $i++) {
                 $sql_new_imgs = $em->getConnection()->prepare('INSERT INTO pets_has_images (Pets_idPets, Images_idImages) VALUES (' . $pet["idpets"] . ',' . $idImages[$i]["idImages"] . ')');
                 $sql_new_imgs->execute();
@@ -499,7 +513,7 @@ class AdminController extends Controller {
 
             $pet_of_month = isset($pet["petofmonth"]) ? 1 : 0;
 
-            
+
             // TODO Ajouter la prise en compte du Veteran
             $sql_pet = $em->getConnection()->prepare('UPDATE pets SET '
                     . 'reference = \'?\', '
