@@ -24,6 +24,7 @@ and open the template in the editor.
                     <li>
                         {{pet.reference}}
                         <a href="{{ path('spa_spa_admin_modifpets', {'id': pet.idpets}) }}" class="btn btn-default">Modifier</a>
+                        <a href="{{ path('spa_spa_admin_deletepets', {'id': pet.idpets}) }}" class="btn btn-default">Supprimer</a>
                         
                     </li>
                 {% endfor %}

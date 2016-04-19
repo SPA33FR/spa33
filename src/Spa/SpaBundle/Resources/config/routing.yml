@@ -96,6 +96,9 @@ spa_spa_admin_savemodifpets:
     path: /admin/save/pets
     defaults: {_controller: SpaSpaBundle:Admin:savemodifPets}
     
+spa_spa_admin_deletepets:
+    path: /admin/delete/pets/{id}
+    defaults: {_controller: SpaSpaBundle:Admin:deletePets}    
     
     
     

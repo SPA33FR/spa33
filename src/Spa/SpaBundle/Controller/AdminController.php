@@ -160,7 +160,6 @@ class AdminController extends Controller {
         for ($i = 0; $i < count($article->getImagesimages()); $i++) {
             unlink(__DIR__ . "/../../../../web/uploads/articles/pictures/" . $article->getImagesimages()[$i]->getUrl());
         }
-        // TODO finir la suppression des images
 
         return $this->redirectToRoute('spa_spa_admin_allarticles');
     }
@@ -531,5 +530,36 @@ class AdminController extends Controller {
             return $this->redirectToRoute('spa_spa_admin_allpets');
         }
     }
-
+    
+    public function deletePetsAction($id) {
+        $em = $this->getDoctrine()->getmanager();
+        $pet = $em->getRepository('SpaSpaBundle:Pets')->find($id);
+        $em->remove($pet);
+        $em->flush();
+        $sql_imgs = $em->getConnection()->prepare("SELECT Images_idImages FROM pets_has_images WHERE Pets_idPets LIKE '" . $id . "'");
+        $sql_imgs->execute();
+        $idImages = $sql_imgs->fetchAll();
+        
+        $sql_videos = $em->getConnection()->prepare("SELECT Videos_idVideos FROM pets_has_videos WHERE Pets_idPets LIKE '" . $id . "'");
+        $sql_videos->execute();
+        $idVideos = $sql_videos->fetchAll();
+        
+        if (count($idImages) != 0) {
+            $sql_del_imgs = $em->getConnection()->prepare("DELETE FROM images WHERE idImages IN (" . implode(',', $idImages) . ")");
+            $sql_del_imgs->execute();
+        }
+        if (count($idVideos) != 0) {
+            $sql_del_videos = $em->getConnection()->prepare("DELETE FROM videos WHERE idVideos IN (" . implode(',', $idVideos) . ")");
+            $sql_del_videos->execute();
+        }
+        
+        for ($i = 0; $i < count($pet->getImagesimages()); $i++) {
+            unlink(__DIR__ . "/../../../../web/uploads/pets/pictures/" . $pet->getImagesimages()[$i]->getUrl());
+        }
+        for ($i = 0; $i < count($pet->getVideosvideos()); $i++) {
+            unlink(__DIR__ . "/../../../../web/uploads/pets/videos/" . $pet->getVideosvideos()[$i]->getUrl());
+        }
+        
+        return $this->redirectToRoute('spa_spa_admin_allpets');
+    }
 }
