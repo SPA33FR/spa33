@@ -414,7 +414,6 @@ class AdminController extends Controller {
         $request = $this->get('request');
         if ($request->getMethod() == "POST") {
             $pet = $_POST["pets"];
-
             $filesPicture = $_FILES["pets"]["name"]["filePicture"];
             $filesVideo = $_FILES["pets"]["name"]["fileVideo"];
 
@@ -447,7 +446,7 @@ class AdminController extends Controller {
                 $fileName = str_replace(' ', '_', $filesPicture[$i]);
                 while (file_exists($old_pet->getUploadRootPictureDir() . '/' . $fileName)) {
                     $match = '';
-                    if ($fileName == str_replace(' ', '_', $filesPictures[$i])) {
+                    if ($fileName == str_replace(' ', '_', $filesPicture[$i])) {
                         $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
                     } else {
                         preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
@@ -469,7 +468,7 @@ class AdminController extends Controller {
                 $fileName = str_replace(' ', '_', $filesVideo[$i]);
                 while (file_exists($old_pet->getUploadRootVideoDir() . '/' . $fileName)) {
                     $match = '';
-                    if ($fileName == str_replace(' ', '_', $filesVideos[$i])) {
+                    if ($fileName == str_replace(' ', '_', $filesVideo[$i])) {
                         $fileName = preg_replace('/(.+)\./', "$1(1).", $fileName);
                     } else {
                         preg_match("/\((\d+)\)\.\w+/", $fileName, $match);
