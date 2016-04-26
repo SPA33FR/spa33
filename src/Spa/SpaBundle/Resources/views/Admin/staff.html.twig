@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Administration - Création d'une fiche personnelle</title>
@@ -23,8 +18,65 @@ and open the template in the editor.
     </head>
 
     <body>      
-        {% include "::navbarAdmin.html.twig" %}
-        <div class="container theme-showcase" role="main">
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('spa_spa_admin') }}">Administration</a> 
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ path('spa_spa_homepage') }}">Site</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Articles<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('spa_spa_admin_articles') }}">Créer un article</a></li>	
+                                <li><a href="{{ path('spa_spa_admin_allarticles') }}">Modifier/Supprimer un article</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Races<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('spa_spa_admin_races') }}">Créer une race</a></li>	
+                                <li><a href="{{ path('spa_spa_admin_allraces') }}">Modifier/Supprimer une race</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tags<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('spa_spa_admin_tags') }}">Créer un tag</a></li>	
+                                <li><a href="{{ path('spa_spa_admin_alltags') }}">Modifier/Supprimer un tag</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Animaux<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('spa_spa_admin_pets') }}">Créer une fiche d'un animal</a></li>	
+                                <li><a href="{{ path('spa_spa_admin_allpets') }}">Modifier/Supprimer la fiche d'un animal</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown active">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Personnel<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('spa_spa_admin_staff') }}">Créer une fiche d'une personne</a></li>	
+                                <li><a href="{{ path('spa_spa_admin_allstaff') }}">Modifier/Supprimer la fiche d'une personne</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>        <div class="container theme-showcase" role="main">
             {% if form %}
                 {{ form_start(form, {'action': path('spa_spa_admin_staff'), 'method': 'POST'})}}
                 {{ form_row(form._token) }}
